@@ -1,0 +1,335 @@
+// ✅ INPUT SCORE MATRIX (roles x employees)
+const scores = [
+    [19, 18, 20, 16, 63],
+    [19, 18, 20, 16, 17],
+    [19, 50, 20, 16, 17],
+    [60, 50, 20, 16, 17],
+    [19, 40, 20, 16, 17]
+];
+
+// Choose which score matrix to use
+const currentScores = scores;
+
+const originalRoleCount = currentScores.length;
+const originalEmployeeCount = currentScores[0].length;
+
+// ✅ Add tiny noise to break ties for floating-point stability
+function addTinyNoise(matrix, epsilon = 1e-6) {
+    return matrix.map((row, i) =>
+        row.map((val, j) => val + epsilon * (i * matrix[0].length + j + 1))
+    );
+}
+
+// ✅ STEP 1: Pad to Square Matrix
+function padToSquare(matrix) {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+    const size = Math.max(numRows, numCols);
+
+    const padded = matrix.map(row => {
+        const newRow = row.slice();
+        while (newRow.length < size) newRow.push(0);
+        return newRow;
+    });
+
+    while (padded.length < size) {
+        padded.push(new Array(size).fill(0));
+    }
+
+    return padded;
+}
+
+const paddedMatrix = padToSquare(addTinyNoise(currentScores));
+
+// ✅ STEP 2: Hungarian Algorithm (Maximization adapted Munkres' algorithm)
+function hungarianAlgorithm(scoreMatrix) {
+    const n = scoreMatrix.length;
+    const costMatrix = [];
+    const maxVal = Math.max(...scoreMatrix.flat());
+
+    // Convert to minimization problem: C_ij = M - A_ij
+    for (let i = 0; i < n; i++) {
+        costMatrix[i] = [];
+        for (let j = 0; j < n; j++) {
+            costMatrix[i][j] = maxVal - scoreMatrix[i][j];
+        }
+    }
+
+    let mask = Array.from({ length: n }, () => Array(n).fill(0)); // 0: no mark, 1: starred, 2: primed
+    let rowCover = Array(n).fill(false);
+    let colCover = Array(n).fill(false);
+
+    // Step 1: Subtract row minima
+    for (let i = 0; i < n; i++) {
+        const minVal = Math.min(...costMatrix[i]);
+        for (let j = 0; j < n; j++) {
+            costMatrix[i][j] -= minVal;
+        }
+    }
+
+    // Step 2: Initial starring of zeros
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            // Use tolerance for floating point zero comparison
+            if (Math.abs(costMatrix[i][j]) < 1e-9 && !rowCover[i] && !colCover[j]) {
+                mask[i][j] = 1; // Starred zero
+                rowCover[i] = true;
+                colCover[j] = true;
+            }
+        }
+    }
+
+    // Reset covers for main loop
+    rowCover.fill(false);
+    colCover.fill(false);
+
+    // Main loop of Munkres' algorithm
+    let step = 3;
+    let path = [];
+
+    while (step !== 7) {
+        switch (step) {
+            case 3:
+                step = step3_coverColumnsWithStars(mask, colCover, n);
+                break;
+            case 4:
+                const resultStep4 = step4_findUncoveredZeroAndPrime(costMatrix, rowCover, colCover, mask, n);
+                step = resultStep4.nextStep;
+                if (resultStep4.path) {
+                    path = resultStep4.path;
+                }
+                break;
+            case 5:
+                step = step5_augmentPath(mask, path, rowCover, colCover, n);
+                break;
+            case 6:
+                step = step6_adjustMatrix(costMatrix, rowCover, colCover, n);
+                break;
+            default:
+                console.error("Error: Invalid step encountered in Hungarian Algorithm!");
+                return { assignment: [], totalScore: 0 };
+        }
+    }
+
+    const assignment = [];
+    let totalScore = 0;
+
+    for (let i = 0; i < n; i++) {
+        const j = mask[i].indexOf(1); // Find the starred zero in each row
+        if (j !== -1) {
+            assignment.push({ role: i, employee: j });
+            if (i < originalRoleCount && j < originalEmployeeCount) {
+                // Ensure we use the original score for calculation, without noise
+                totalScore += currentScores[i][j];
+            }
+        }
+    }
+
+    return { assignment, totalScore };
+}
+
+// Munkres' Algorithm Steps Breakdown (Helper Functions):
+
+// Step 3: Cover columns containing starred zeros.
+function step3_coverColumnsWithStars(mask, colCover, n) {
+    colCover.fill(false); // Reset
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (mask[i][j] === 1) {
+                colCover[j] = true;
+            }
+        }
+    }
+    const coveredColsCount = colCover.filter(Boolean).length;
+    if (coveredColsCount === n) {
+        return 7; // All columns covered, solution found
+    } else {
+        return 4; // Not enough covered, proceed to Step 4
+    }
+}
+
+// Step 4: Find an uncovered zero and prime it.
+function step4_findUncoveredZeroAndPrime(costMatrix, rowCover, colCover, mask, n) {
+    while (true) {
+        let [r, c] = findUncoveredZero(costMatrix, rowCover, colCover);
+
+        if (r === -1) { // No uncovered zero found
+            return { nextStep: 6 }; // Go to Step 6 (Adjust matrix)
+        } else {
+            mask[r][c] = 2; // Prime the zero (Z_0)
+
+            const starColInRow = findStarInRow(mask, r, n);
+            if (starColInRow === -1) { // No starred zero in this row (augmenting path found)
+                const localPath = buildPath(mask, r, c, n); // Build the path starting from Z_0
+                return { nextStep: 5, path: localPath }; // Go to Step 5 (Augment path)
+            } else { // Starred zero (S_1) found in the same row as Z_0
+                rowCover[r] = true; // Cover the row of Z_0
+                colCover[starColInRow] = false; // Uncover the column of S_1
+            }
+        }
+    }
+}
+
+// Helper: Find an uncovered zero
+function findUncoveredZero(matrix, rowCover, colCover) {
+    for (let i = 0; i < matrix.length; i++) {
+        if (!rowCover[i]) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                if (!colCover[j] && Math.abs(matrix[i][j]) < 1e-9) {
+                    return [i, j];
+                }
+            }
+        }
+    }
+    return [-1, -1];
+}
+
+// Helper: Find a starred zero in a given row
+function findStarInRow(mask, row, n) {
+    for (let j = 0; j < n; j++) {
+        if (mask[row][j] === 1) {
+            return j;
+        }
+    }
+    return -1;
+}
+
+// Helper: Find a primed zero in a given column
+function findPrimeInCol(mask, col, n) {
+    for (let i = 0; i < n; i++) {
+        if (mask[i][col] === 2) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Step 5: Augmenting Path Found
+function step5_augmentPath(mask, path, rowCover, colCover, n) {
+    for (const { row, col } of path) {
+        if (mask[row][col] === 1) { // Starred zero becomes unstarred
+            mask[row][col] = 0;
+        } else { // Primed zero becomes starred
+            mask[row][col] = 1;
+        }
+    }
+
+    // Clear all primed zeros
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (mask[i][j] === 2) {
+                mask[i][j] = 0;
+            }
+        }
+    }
+    // Reset covers for next iteration of the main loop
+    rowCover.fill(false);
+    colCover.fill(false);
+    return 3; // Go back to Step 3
+}
+
+// Helper: Build the augmenting path
+function buildPath(mask, r, c, n) {
+    const localPath = [];
+    let pathIndex = 0;
+
+    // Start with the initial primed zero (r, c)
+    localPath[pathIndex] = { row: r, col: c };
+
+    while (true) {
+        const currentPrimeCol = localPath[pathIndex].col;
+        const foundStarRowInCol = findStarInCol(mask, currentPrimeCol, n);
+
+        if (foundStarRowInCol !== -1) { // If a starred zero (S) is found in the current prime's column
+            pathIndex++;
+            localPath[pathIndex] = { row: foundStarRowInCol, col: currentPrimeCol }; // Add S to path
+
+            const primeColInRow = findPrimeInRow(mask, foundStarRowInCol, n);
+            pathIndex++;
+            localPath[pathIndex] = { row: foundStarRowInCol, col: primeColInRow }; // Add P to path
+        } else {
+            break; // No starred zero in this column, path is complete
+        }
+    }
+    return localPath;
+}
+
+// Helper: Find a starred zero in a given column
+function findStarInCol(mask, col, n) {
+    for (let i = 0; i < n; i++) {
+        if (mask[i][col] === 1) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Helper: Find a primed zero in a given row
+function findPrimeInRow(mask, row, n) {
+    for (let j = 0; j < n; j++) {
+        if (mask[row][j] === 2) {
+            return j;
+        }
+    }
+    return -1;
+}
+
+
+// Step 6: Adjust the matrix (create more zeros)
+function step6_adjustMatrix(costMatrix, rowCover, colCover, n) {
+    let minVal = Infinity;
+    for (let i = 0; i < n; i++) {
+        if (!rowCover[i]) {
+            for (let j = 0; j < n; j++) {
+                if (!colCover[j]) {
+                    minVal = Math.min(minVal, costMatrix[i][j]);
+                }
+            }
+        }
+    }
+
+    if (minVal === Infinity) {
+        // This scenario indicates a logical flaw or an unhandled edge case
+        // where all cells are covered but a complete assignment isn't found.
+        // It generally shouldn't be reachable in a correct Hungarian algorithm
+        // implementation for valid inputs.
+        console.error("Error: All cells are covered, but an optimal assignment was not found. This indicates a problem in the algorithm's logic or an edge case not handled.");
+        return 7; // Attempt to terminate gracefully
+    }
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (rowCover[i]) {
+                costMatrix[i][j] += minVal;
+            }
+            if (!colCover[j]) {
+                costMatrix[i][j] -= minVal;
+            }
+        }
+    }
+    return 4; // Go back to Step 4
+}
+
+
+// ✅ Step 3: Solve
+const result = hungarianAlgorithm(paddedMatrix);
+
+// ✅ Step 4: Filter Real Assignments Only
+const realAssignments = result.assignment.filter(({ role, employee }) =>
+    role < originalRoleCount && employee < originalEmployeeCount
+);
+
+// ✅ Step 5: Output
+console.log("\n--- Final Results ---");
+console.log("📊 Final Assignments (Real Roles Only):");
+if (realAssignments.length === 0 && originalRoleCount > 0) {
+    console.log("No valid assignments found for real roles. This may indicate an issue with the algorithm or input data.");
+} else {
+    realAssignments.forEach(({ role, employee }) => {
+        // Use the original currentScores for display
+        console.log(`- Role ${role + 1} → Employee ${employee + 1} (Score: ${currentScores[role][employee]})`);
+    });
+}
+
+const realTotal = realAssignments.reduce((sum, a) => sum + currentScores[a.role][a.employee], 0);
+console.log("✅ Total Score:", realTotal);
