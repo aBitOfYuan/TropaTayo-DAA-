@@ -1,0 +1,709 @@
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 5rem; /* Added space for the floating button */
+}
+
+.card {
+    background: var(--dark-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid var(--dark-border);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-card .title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-card .date {
+    color: var(--dark-text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.progress-container {
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--primary);
+    box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--dark-text-secondary);
+}
+
+/* Add button styles */
+.add-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 10; /* <-- Add this line */
+}
+
+.add-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.add-button:active {
+    transform: scale(0.95);
+}
+
+/* Ongoing Projects Section */
+.ongoing-projects {
+    padding: 1.5rem;
+}
+
+.ongoing-projects h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.ongoing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.ongoing-card {
+    background: var(--dark-card);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #ffeb3b; 
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.ongoing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.ongoing-card h4 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.ongoing-card .due-date {
+    color: var(--dark-text-secondary);
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.ongoing-card .created-date {
+    color: var(--dark-text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Remove these blocks */
+.ongoing-progress {
+    height: 6px;
+    background: var(--dark-border);
+    border-radius: 3px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+}
+
+.ongoing-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.progress-percentage {
+    font-size: 0.85rem;
+    color: var(--dark-text-secondary);
+    text-align: right;
+}
+
+/* Remove color variations for .ongoing-progress-fill */
+.ongoing-card.primary .ongoing-progress-fill {
+    background: var(--primary);
+}
+
+.ongoing-card.success .ongoing-progress-fill {
+    background: var(--success);
+}
+
+.ongoing-card.warning .ongoing-progress-fill {
+    background: #f59e0b;
+}
+
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--dark-card, #222);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    min-width: 600px;      
+    max-width: 700px;      
+    width: 90vw;
+    min-height: 700px;     
+    max-height: 90vh;      
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #111;
+    color: #fff;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: var(--primary, #007bff);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark, #0056b3);
+}
+
+.roles-section {
+    margin: 1rem 0;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    max-height: 40vh; /* Adjust as needed */
+    margin-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #23272f;
+    position: relative;
+    padding-right: 8px;
+}
+
+.roles-section h3 {
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.role-entry {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid var(--dark-border, #444);
+    border-radius: 8px;
+    background-color: var(--dark-card-secondary, #1a1a1a);
+}
+
+.role-input-group {
+    margin-bottom: 0.5rem;
+}
+
+.role-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #ddd;
+}
+
+.role-input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #111;
+    color: #fff;
+}
+
+.btn-remove-role {
+    background-color: var(--danger, #dc3545);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s ease;
+}
+
+.btn-remove-role:hover {
+    background-color: var(--danger-dark, #bb2d3b);
+}
+
+#addRoleBtn {
+    width: 100%;
+    background-color: var(--dark-card-secondary, #1a1a1a);
+    color: var(--primary, #007bff);
+    border: 1px dashed var(--primary, #007bff);
+    padding: 0.75rem;
+    margin: 0.5rem 0 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+#addRoleBtn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    border-style: solid;
+}
+
+#projectForm {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* For flexbox scrolling */
+}
+
+#projectDescription,
+#projectName {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #181c23;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+#projectDescription:focus,
+#projectName:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+    outline: none;
+}
+
+.roles-section::-webkit-scrollbar {
+    width: 8px;
+    background: #23272f;
+    border-radius: 8px;
+}
+.roles-section::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 8px;
+}
+.roles-section::-webkit-scrollbar-thumb:hover {
+    background: #339cff;
+}
+
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+    background: inherit;
+}
+/* Add this to your existing CSS */
+.experience-requirements {
+    margin-bottom: 1rem;
+}
+
+.experience-requirements h3 {
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.experience-fields {
+    display: flex;
+    gap: 1rem;
+}
+
+.experience-field {
+    flex: 1;
+}
+
+.experience-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #ddd;
+}
+
+.experience-field input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #181c23;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.experience-field input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+    outline: none;
+}
+
+/* For number input spinners - optional but improves appearance */
+.experience-field input[type="number"]::-webkit-inner-spin-button,
+.experience-field input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.btn-view-details {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    top: auto;
+    margin-top: 0;
+    padding: 0.28rem 0.8rem;
+    background: var(--primary, #3a86ff);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 2;
+}
+.btn-view-details:hover {
+    background: var(--primary-dark, #2667cc);
+}
+
+/* Improved Details Modal */
+#detailsModalOverlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+#detailsModal {
+    background: var(--dark-card);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--dark-border);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--dark-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--dark-card-secondary);
+    position: relative;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+.modal-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: calc(90vh - 120px);
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1.5rem 0 1rem 0;
+    color: white;
+    position: relative;
+    padding-left: 1.2rem; /* Space for the line */
+    padding-bottom: 0;    /* Remove bottom padding */
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 7px;              /* Thickness of the line */
+    height: 1.5em;           /* Height matches the text */
+    background: #ffeb3b;
+    border-radius: 3px;
+}
+
+.description-text {
+    line-height: 1.6;
+    color: var(--dark-text-secondary);
+    background: var(--dark-card-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Team Members Grid */
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+    background: #23272f;
+    border-radius: 8px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 8px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #339cff;
+}
+
+.team-member-card {
+    display: flex;
+    align-items: center; /* Changed to center */
+    gap: 1.5rem;
+    background: var(--dark-card-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #ffeb3b; 
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.team-member-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(58, 134, 255, 0.1) 0%, rgba(58, 134, 255, 0) 100%);
+    z-index: 0;
+}
+
+.member-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--primary);
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-content {
+    flex: 1;
+}
+
+.member-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 0.25rem;
+    position: relative;
+    z-index: 1;
+}
+
+.member-role .member-role-badge {
+    display: inline-block;
+    background: rgba(58, 134, 255, 0.2);
+    color: var(--primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.member-skills {
+    margin-top: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.skills-label {
+    font-size: 0.8rem;
+    color: var(--dark-text-secondary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.skill-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Project Meta Info */
+.project-meta {
+    display: flex;
+    flex-direction: row;   /* Default na row na */
+    gap: 2rem;             /* Space between each meta item */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;    /* I-align vertically ang mga items */
+    flex-wrap: nowrap;     /* Pigilan ang pag-wrap */
+    width: 100%;           /* Kunin ang buong available width */
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;        /* Pigilan ang pag-shrink ng items */
+}
+
+.meta-icon {
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    color: var(--dark-text-secondary);
+}
+
+.meta-value {
+    font-size: 0.95rem;
+    color: white;
+    font-weight: 500;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-content {
+        padding: 1rem;
+    }
+    
+    .project-meta {
+        gap: 1rem;
+    }
+}

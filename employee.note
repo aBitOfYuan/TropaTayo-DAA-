@@ -1,0 +1,36 @@
+    {
+        name: "Mobile App Development",
+        description: "Developing a cross-platform mobile app for our services.",
+        team: [
+            { name: "Carlos", role: "Mobile Developer", skills: ["Flutter", "Dart"] },
+            { name: "Dana", role: "QA Tester", skills: ["Appium", "Manual Testing"] }
+        ]
+    },
+    {
+        name: "Marketing Campaign",
+        description: "Launching a new digital marketing campaign.",
+        team: [
+            { name: "Eve", role: "Marketing Lead", skills: ["SEO", "Content Creation"] },
+            { name: "Frank", role: "Copywriter", skills: ["Copywriting", "Social Media"] }
+        ]
+    }
+
+    gawing dynamic yung project card
+
+
+
+
+
+
+<div class="employee-card" data-id="20">
+<div class="employee-avatar-container">
+    <img src="https://i.pravatar.cc/150?img=20" alt="Uma Roy" class="employee-avatar">
+</div>
+<div class="divider"></div>
+<div class="employee-info">
+    <div class="employee-name">Uma Roy</div>
+    <div class="employee-role">Content Strategist</div>
+    <span class="status status-busy">Busy</span>
+    <button class="view-button">View Details</button>
+</div>
+</div>

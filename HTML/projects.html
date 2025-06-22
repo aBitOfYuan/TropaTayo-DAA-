@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/projects-style.css">
+    <link rel="stylesheet" href="../CSS/main-style.css">
+    <title>TropaTayo - Dashboard</title>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+                    <path d="M19 21C19 17.134 15.866 14 12 14C8.13401 14 5 17.134 5 21M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Tropa</span>Tayo
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="projects.html" class="nav-item active">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                    </svg>
+                    Projects
+                </a>
+                <a href="employees.html" class="nav-item" onclick="loadContent('team.html')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    Employees
+                </a>
+                <a href="login.html" class="nav-item signout-nav">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Sign Out
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="user-avatar">
+                    <img src="../Images/nek.jpg" alt="User Avatar" />
+                </div>
+                <div class="welcome">
+                    <h1>Welcome back, Admin!</h1>
+                    <p>Here's what's happening with your projects today</p>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="window.location.href = 'projects.html'">Ongoing Projects</div>
+                <div class="tab" onclick="window.location.href = 'employees.html'">Employees</div>
+            </div>
+
+            <div class="ongoing-grid">
+                <div class="ongoing-card primary">
+                    <h4>Website Redesign</h4>
+                    <p class="created-date">Created on: May 15, 2023</p>
+                    <button class="btn-view-details">View Details</button>
+                </div>
+            </div>
+
+            <!-- Add button -->
+            <button class="add-button" id="newProjectBtn">
+                <span>New Project</span>
+            </button>
+
+            <div class="footer">
+                © 2025 TropaTayo. Better Teams, Brighter Future. All rights reserved.
+            </div>
+        </div>
+    </div>
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalCloseBtn">&times;</button>
+            <h2>Create New Project</h2>
+            <form id="projectForm">
+                <label for="projectName"><strong>Project Name</strong></label>
+                <input type="text" id="projectName" name="projectName" placeholder="Enter project title" required>
+
+                <label for="projectDescription"><strong>Project Description</strong></label>
+                <textarea id="projectDescription" name="projectDescription" placeholder="Enter project description" required style="resize: vertical; min-height: 60px; margin-bottom: 1rem;"></textarea>
+
+                <div class="experience-requirements">
+                    <h3>Required Experience</h3>
+                    <div class="experience-fields">
+                        <div class="experience-field">
+                            <label for="minExperience">Minimum Experience (years)</label>
+                            <input type="number" id="minExperience" name="minExperience" min="0" max="50" placeholder="0" required>
+                        </div>
+                        <div class="experience-field">
+                            <label for="maxExperience">Maximum Experience (years)</label>
+                            <input type="number" id="maxExperience" name="maxExperience" min="0" max="50" placeholder="10" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="roles-section">
+                    <h3>Roles Required</h3>
+                    <div id="rolesContainer">
+                        <!-- Roles will be added here dynamically -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="addRoleBtn" class="btn-add-role">+ Add Another Role</button>
+                    <button type="submit" class="btn-primary">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Improved Details Modal Structure -->
+    <div class="modal-overlay" id="detailsModalOverlay">
+        <div class="modal" id="detailsModal">
+            <div class="modal-header">
+                <h2 id="detailsProjectName" class="modal-title"></h2>
+                <button class="modal-close" id="detailsModalCloseBtn" aria-label="Close modal">
+                    &times;
+                </button>
+            </div>
+            
+            <div class="modal-content">
+                <div class="project-description">
+                    <h3 class="section-title">Project Overview</h3>
+                    <p id="detailsProjectDescription" class="description-text"></p>
+                </div>
+                
+                <div class="team-section">
+                    <h3 class="section-title">Team Members</h3>
+                    <div id="detailsTeamMembers" class="team-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../JS/projects.js"></script>
+</body>
+</html>
