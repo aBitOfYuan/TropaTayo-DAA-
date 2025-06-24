@@ -206,6 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         // Add to project list
         window.projectDetailsData.push(newProject);
+        // --- Local Storage: Save to local storage after adding new project ---
+        const localStorageKey = 'projectDetailsData';
+        localStorage.setItem(localStorageKey, JSON.stringify(window.projectDetailsData));
         // Close modal and reset form
         modalOverlay.classList.remove('active');
         clearProjectForm();
@@ -258,9 +261,22 @@ const initialProjectData = [
 ];
 
 // Initialize global project data if it doesn't exist
+// --- Local Storage: Load from local storage if available ---
+const localStorageKey = 'projectDetailsData';
+let storedProjects = localStorage.getItem(localStorageKey);
 window.projectDetailsData = window.projectDetailsData || [];
+if (storedProjects) {
+    try {
+        window.projectDetailsData = JSON.parse(storedProjects);
+    } catch (e) {
+        // If parsing fails, fallback to initial data
+        window.projectDetailsData = [];
+    }
+}
 if (window.projectDetailsData.length === 0) {
     window.projectDetailsData.push(...initialProjectData);
+    // Save initial data to local storage
+    localStorage.setItem(localStorageKey, JSON.stringify(window.projectDetailsData));
 }
 
 // Modal elements
