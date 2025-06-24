@@ -85,15 +85,69 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add role button event listener
     addRoleBtn.addEventListener('click', addRoleField);
 
+    // --- Scoring Functions for Assignment ---
+    function calculateRoleScore(employeeRole, requiredRole) {
+        const employeeRoles = Array.isArray(employeeRole)
+            ? employeeRole.map(r => r.toLowerCase())
+            : [employeeRole.toLowerCase()];
+        return employeeRoles.includes(requiredRole.toLowerCase()) ? 6 : -5;
+    }
+
+    function calculateSkillsScore(employeeSkills, requiredSkills) {
+        if (!requiredSkills || requiredSkills.length === 0) return 0;
+        const matchedCount = requiredSkills.filter(skill =>
+            employeeSkills.map(s => s.toLowerCase()).includes(skill.toLowerCase())
+        ).length;
+        const matchRatio = matchedCount / requiredSkills.length;
+        return matchedCount === 0 ? 0 : Math.ceil(matchRatio * 10);
+    }
+
+    function calculateExperienceScore(employeeExp, expMin, expMax) {
+        if (isNaN(expMin)) return 0;
+        return (employeeExp >= expMin && employeeExp <= expMax) ? 4 : 0;
+    }
+
+    function buildScoreMatrix(project, employees) {
+        // Filter out employees who are "Busy"
+        const availableEmployees = employees.filter(emp => emp.status !== "Busy");
+        // Build the matrix
+        const matrix = project.roles.map(role => {
+            return availableEmployees.map(employee => {
+                const roleScore = calculateRoleScore(employee.role, role.roleName || role.role);
+                const skillsScore = calculateSkillsScore(employee.skills, role.skills);
+                const expScore = calculateExperienceScore(
+                    employee.experience,
+                    project.expMin,
+                    project.expMax
+                );
+                const total = roleScore + skillsScore + expScore;
+                console.log(`Score for ${employee.name} on ${role.roleName || role.role}: Role: ${roleScore}, Skills: ${skillsScore}, Exp: ${expScore}, Total: ${total}`);
+                return total;
+            });
+        });
+        // Console log: header row with employee names and roles
+        const header = ['Role \\ Employee'].concat(
+            availableEmployees.map(emp => `${emp.name} (${Array.isArray(emp.role) ? emp.role[0] : emp.role})`)
+        );
+        console.log(header.join('\t'));
+        // Console log: each row with role and scores
+        matrix.forEach((row, i) => {
+            const roleName = project.roles[i].roleName || project.roles[i].role;
+            console.log([roleName].concat(row).join('\t'));
+        });
+        // Attach availableEmployees for assignment mapping
+        matrix.availableEmployees = availableEmployees;
+        return matrix;
+    }
+
     // Handle form submission
     document.getElementById('projectForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
         const projectName = document.getElementById('projectName').value;
         const projectDescription = document.getElementById('projectDescription').value;
-        const expMin = document.getElementById('expMin').value;
-        const expMax = document.getElementById('expMax').value;
-        const dueDate = document.getElementById('dueDate').value;
+        const expMin = parseInt(document.getElementById('minExperience').value);
+        const expMax = document.getElementById('maxExperience').value;
+        const dueDate = document.getElementById('dueDate') ? document.getElementById('dueDate').value : null;
         const roles = [];
         document.querySelectorAll('.role-entry').forEach(entry => {
             const roleName = entry.querySelector('.roleName').value;
@@ -101,70 +155,113 @@ document.addEventListener('DOMContentLoaded', function () {
                 .split(',')
                 .map(skill => skill.trim())
                 .filter(skill => skill.length > 0);
-
             if (roleName) {
                 roles.push({
-                    role: roleName,
+                    roleName: roleName,
                     skills: skills
                 });
             }
         });
-
-        // Example: log the result or send to backend
-        console.log({
-            projectName,
-            projectDescription,
-            expMin,
-            expMax,
-            dueDate,
-            roles
+        const projectData = {
+            name: projectName,
+            description: projectDescription,
+            expMin: expMin,
+            expMax: expMax,
+            roles: roles
+        };
+        const employeesArr = window.employeesData || [];
+        if (!employeesArr.length) {
+            alert('No employee data found!');
+            return;
+        }
+        // Generate score matrix
+        const scoreMatrix = buildScoreMatrix(projectData, employeesArr);
+        // Use the attached availableEmployees for assignment
+        const availableEmployees = scoreMatrix.availableEmployees;
+        // Run Hungarian algorithm
+        const paddedMatrix = padToSquare(addTinyNoise(scoreMatrix));
+        const result = hungarianAlgorithm(paddedMatrix);
+        // Process assignments
+        const realAssignments = result.assignment.filter(({ role, employee }) =>
+            role < projectData.roles.length &&
+            employee < availableEmployees.length
+        );
+        // Create project team
+        const projectTeam = realAssignments.map(ass => {
+            const emp = availableEmployees[ass.employee];
+            return {
+                name: emp.name,
+                role: projectData.roles[ass.role].roleName,
+                skills: emp.skills,
+                image: emp.img
+            };
         });
-
-        alert('Project created successfully!');
+        // Create new project
+        const newProject = {
+            name: projectData.name,
+            description: projectData.description,
+            team: projectTeam,
+            created: new Date().toLocaleDateString(),
+            status: 'Active'
+        };
+        // Add to project list
+        window.projectDetailsData.push(newProject);
+        // Close modal and reset form
         modalOverlay.classList.remove('active');
+        clearProjectForm();
+        alert('Project created with optimal team assignment!');
+        // Refresh project display
+        renderProjects();
     });
 });
 
-// Sample data for demonstration
-const projectDetailsData = [
+// Initial project data with created and status fields
+const initialProjectData = [
     {
         name: "Website Redesign",
         description: "A complete overhaul of the company website for better UX.",
         team: [
             { 
                 name: "Felip Jhon Suson", 
-                role: ["Full Stack Developer", "Software Engineer", "Web Developer"],
-                skills: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "HTML", "CSS"],
-                image: "../Images/nek.jpg" // <-- unique image
+                role: "Full Stack Developer",
+                skills: ["React", "Node.js", "MongoDB"],
+                image: "../Images/nek.jpg"
             },
             { 
                 name: "Aiah Arceta", 
-                role: ["Graphic Designer", "Visual Artist", "Content Creator"],
+                role: "Graphic Designer",
                 skills: ["Adobe Photoshop", "Illustrator", "Canva", "Figma", "Sketch"],
-                image: "../Images/aiah.jpg" // <-- unique image
+                image: "../Images/aiah.jpg"
             },
             { 
                 name: "Justin De Dios", 
                 role: "Backend Developer", 
                 skills: ["Node.js", "Express", "MongoDB"],
-                image: "../Images/justin.jpg" // <-- unique image
+                image: "../Images/justin.jpg"
             },
             { 
                 name: "Sara Duterte", 
                 role:  "DevOps Engineer",
                 skills: ["Docker", "Kubernetes", "AWS"],
-                image: "../Images/sara-duterte.jpg" // <-- unique image
+                image: "../Images/sara-duterte.jpg"
             },
             { 
                 name: "Bongbong Marcos", 
                 role:  "System Administrator",
                 skills: ["Linux", "Networking", "Security"],
-                image: "../Images/bbm.jpg" // <-- unique image
+                image: "../Images/bbm.jpg"
             },
-        ]
+        ],
+        created: 'May 15, 2023',
+        status: 'In Progress'
     }
-
 ];
+
+// Initialize global project data if it doesn't exist
+window.projectDetailsData = window.projectDetailsData || [];
+if (window.projectDetailsData.length === 0) {
+    window.projectDetailsData.push(...initialProjectData);
+}
 
 // Modal elements
 const detailsModalOverlay = document.getElementById('detailsModalOverlay');
@@ -177,7 +274,7 @@ const detailsTeamMembers = document.getElementById('detailsTeamMembers');
 // Update the details modal population code to include meta info
 document.querySelectorAll('.btn-view-details').forEach((btn, idx) => {
     btn.addEventListener('click', () => {
-        const project = projectDetailsData[idx];
+        const project = window.projectDetailsData[idx];
         detailsProjectName.textContent = project.name;
         detailsProjectDescription.textContent = project.description;
 
@@ -251,3 +348,83 @@ detailsModalOverlay.addEventListener('click', (e) => {
         detailsModalOverlay.classList.remove('active');
     }
 });
+
+function renderProjects() {
+    const ongoingGrid = document.querySelector('.ongoing-grid');
+    if (!ongoingGrid) return;
+    ongoingGrid.innerHTML = '';
+    window.projectDetailsData.forEach((project, idx) => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'ongoing-card primary';
+        projectCard.innerHTML = `
+            <h4>${project.name}</h4>
+            <p class="created-date">Created on: ${project.created}</p>
+            <button class="btn-view-details" data-index="${idx}">View Details</button>
+        `;
+        ongoingGrid.appendChild(projectCard);
+    });
+    // Reattach event listeners
+    document.querySelectorAll('.btn-view-details').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const idx = this.getAttribute('data-index');
+            showProjectDetails(idx);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', renderProjects);
+
+function showProjectDetails(index) {
+    const project = window.projectDetailsData[index];
+    if (!project) return;
+    detailsProjectName.textContent = project.name;
+    detailsProjectDescription.textContent = project.description;
+    const metaHtml = `
+        <div class="project-meta">
+            <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <div>
+                    <div class="meta-label">Created</div>
+                    <div class="meta-value">${project.created}</div>
+                </div>
+            </div>
+            <div class="meta-item">
+                <span class="meta-icon">📌</span>
+                <div>
+                    <div class="meta-label">Status</div>
+                    <div class="meta-value">${project.status}</div>
+                </div>
+            </div>
+            <div class="meta-item">
+                <span class="meta-icon">👥</span>
+                <div>
+                    <div class="meta-label">Team Size</div>
+                    <div class="meta-value">${project.team.length} members</div>
+                </div>
+            </div>
+        </div>
+    `;
+    const teamHtml = project.team.map(member => {
+        return `
+            <div class="team-member-card">
+                <div class="member-avatar">
+                    <img src="${member.image || 'nek.jpg'}" alt="${member.name}" onerror="this.src='nek.jpg'">
+                </div>
+                <div class="member-content">
+                    <div class="member-header">
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-role">
+                            <span class="member-role-badge">${member.role}</span>
+                        </div>
+                    </div>
+                    <div class="member-skills">
+                        <span class="skills-label">Skills:</span>
+                        ${member.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    detailsTeamMembers.innerHTML = metaHtml + teamHtml;
+    detailsModalOverlay.classList.add('active');
+}

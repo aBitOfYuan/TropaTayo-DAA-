@@ -13,29 +13,29 @@ const currentScores = scores;
 const originalRoleCount = currentScores.length;
 const originalEmployeeCount = currentScores[0].length;
 
+// Use a consistent floating-point tolerance
+const FLOAT_TOL = 1e-6;
+
 // ✅ Add tiny noise to break ties for floating-point stability
-function addTinyNoise(matrix, epsilon = 1e-6) {
+function addTinyNoise(matrix, epsilon = FLOAT_TOL) {
     return matrix.map((row, i) =>
         row.map((val, j) => val + epsilon * (i * matrix[0].length + j + 1))
     );
 }
 
-// ✅ STEP 1: Pad to Square Matrix
+// ✅ STEP 1: Pad to Square Matrix (use -Infinity for maximization)
 function padToSquare(matrix) {
     const numRows = matrix.length;
     const numCols = matrix[0].length;
     const size = Math.max(numRows, numCols);
-
     const padded = matrix.map(row => {
         const newRow = row.slice();
-        while (newRow.length < size) newRow.push(0);
+        while (newRow.length < size) newRow.push(-Infinity); // for maximization
         return newRow;
     });
-
     while (padded.length < size) {
-        padded.push(new Array(size).fill(0));
+        padded.push(new Array(size).fill(-Infinity));
     }
-
     return padded;
 }
 
@@ -44,21 +44,18 @@ const paddedMatrix = padToSquare(addTinyNoise(currentScores));
 // ✅ STEP 2: Hungarian Algorithm (Maximization adapted Munkres' algorithm)
 function hungarianAlgorithm(scoreMatrix) {
     const n = scoreMatrix.length;
-    const costMatrix = [];
-    const maxVal = Math.max(...scoreMatrix.flat());
-
+    const maxVal = Math.max(...scoreMatrix.flat().filter(Number.isFinite));
     // Convert to minimization problem: C_ij = M - A_ij
+    const costMatrix = [];
     for (let i = 0; i < n; i++) {
         costMatrix[i] = [];
         for (let j = 0; j < n; j++) {
-            costMatrix[i][j] = maxVal - scoreMatrix[i][j];
+            costMatrix[i][j] = !Number.isFinite(scoreMatrix[i][j]) ? maxVal + 1 : maxVal - scoreMatrix[i][j];
         }
     }
-
-    let mask = Array.from({ length: n }, () => Array(n).fill(0)); // 0: no mark, 1: starred, 2: primed
+    let mask = Array.from({ length: n }, () => Array(n).fill(0));
     let rowCover = Array(n).fill(false);
     let colCover = Array(n).fill(false);
-
     // Step 1: Subtract row minima
     for (let i = 0; i < n; i++) {
         const minVal = Math.min(...costMatrix[i]);
@@ -66,27 +63,24 @@ function hungarianAlgorithm(scoreMatrix) {
             costMatrix[i][j] -= minVal;
         }
     }
-
     // Step 2: Initial starring of zeros
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
-            // Use tolerance for floating point zero comparison
-            if (Math.abs(costMatrix[i][j]) < 1e-9 && !rowCover[i] && !colCover[j]) {
+            if (Math.abs(costMatrix[i][j]) < FLOAT_TOL && !rowCover[i] && !colCover[j]) {
                 mask[i][j] = 1; // Starred zero
                 rowCover[i] = true;
                 colCover[j] = true;
             }
         }
     }
-
-    // Reset covers for main loop
     rowCover.fill(false);
     colCover.fill(false);
-
+    // Debug: Print costMatrix and mask after initial steps
+    console.log('Cost Matrix after row reduction:', costMatrix);
+    console.log('Mask after initial starring:', mask);
     // Main loop of Munkres' algorithm
     let step = 3;
     let path = [];
-
     while (step !== 7) {
         switch (step) {
             case 3:
@@ -110,21 +104,16 @@ function hungarianAlgorithm(scoreMatrix) {
                 return { assignment: [], totalScore: 0 };
         }
     }
-
+    // Debug: Print final mask
+    console.log('Final mask:', mask);
     const assignment = [];
     let totalScore = 0;
-
     for (let i = 0; i < n; i++) {
-        const j = mask[i].indexOf(1); // Find the starred zero in each row
+        const j = mask[i].indexOf(1);
         if (j !== -1) {
             assignment.push({ role: i, employee: j });
-            if (i < originalRoleCount && j < originalEmployeeCount) {
-                // Ensure we use the original score for calculation, without noise
-                totalScore += currentScores[i][j];
-            }
         }
     }
-
     return { assignment, totalScore };
 }
 
@@ -175,7 +164,7 @@ function findUncoveredZero(matrix, rowCover, colCover) {
     for (let i = 0; i < matrix.length; i++) {
         if (!rowCover[i]) {
             for (let j = 0; j < matrix[i].length; j++) {
-                if (!colCover[j] && Math.abs(matrix[i][j]) < 1e-9) {
+                if (!colCover[j] && Math.abs(matrix[i][j]) < FLOAT_TOL) {
                     return [i, j];
                 }
             }
@@ -232,23 +221,22 @@ function step5_augmentPath(mask, path, rowCover, colCover, n) {
 function buildPath(mask, r, c, n) {
     const localPath = [];
     let pathIndex = 0;
-
-    // Start with the initial primed zero (r, c)
     localPath[pathIndex] = { row: r, col: c };
-
     while (true) {
         const currentPrimeCol = localPath[pathIndex].col;
         const foundStarRowInCol = findStarInCol(mask, currentPrimeCol, n);
-
-        if (foundStarRowInCol !== -1) { // If a starred zero (S) is found in the current prime's column
+        if (foundStarRowInCol !== -1) {
             pathIndex++;
-            localPath[pathIndex] = { row: foundStarRowInCol, col: currentPrimeCol }; // Add S to path
-
+            localPath[pathIndex] = { row: foundStarRowInCol, col: currentPrimeCol };
             const primeColInRow = findPrimeInRow(mask, foundStarRowInCol, n);
+            if (primeColInRow === -1) {
+                // Defensive: break if no primed zero found
+                break;
+            }
             pathIndex++;
-            localPath[pathIndex] = { row: foundStarRowInCol, col: primeColInRow }; // Add P to path
+            localPath[pathIndex] = { row: foundStarRowInCol, col: primeColInRow };
         } else {
-            break; // No starred zero in this column, path is complete
+            break;
         }
     }
     return localPath;
