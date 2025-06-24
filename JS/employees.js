@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Employee data array
+    // Employee data array with years of experience
     const employees = [
         {
             id: 1,
@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Creative",
             location: "Makati, Metro Manila",
             skills: ["Adobe Photoshop", "Illustrator", "Canva", "Figma", "Sketch"],
-            bio: "Creative artist with a keen eye for detail. Experienced in creating promotional materials for both digital and print."
+            bio: "Creative artist with a keen eye for detail. Experienced in creating promotional materials for both digital and print.",
+            experience: 5
         },
         {
             id: 2,
@@ -27,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "IT",
             location: "Quezon City",
             skills: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "HTML", "CSS"],
-            bio: "Tech-savvy developer passionate about building scalable web applications. Loves working on start-up projects."
+            bio: "Tech-savvy developer passionate about building scalable web applications. Loves working on start-up projects.",
+            experience: 7
         },
         {
             id: 3,
@@ -41,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Human Resources",
             location: "Pasig City",
             skills: ["Node.js", "Express", "MongoDB"],
-            bio: "HR advocate who values employee well-being and efficient onboarding. Promotes a positive work culture."
+            bio: "HR advocate who values employee well-being and efficient onboarding. Promotes a positive work culture.",
+            experience: 3
         },
         {
             id: 4,
@@ -55,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Development",
             location: "Cebu City",
             skills: ["Docker", "Kubernetes", "AWS"],
-            bio: "Builds intuitive and reliable mobile apps. Believes in simple, functional user experiences."
+            bio: "Builds intuitive and reliable mobile apps. Believes in simple, functional user experiences.",
+            experience: 8
         },
         {
             id: 5,
@@ -69,7 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Marketing",
             location: "Davao City",
             skills: ["Linux", "Networking", "Security"],
-            bio: "Driven marketer who thrives on digital trends and content performance metrics. Loves optimizing social media campaigns."
+            bio: "Driven marketer who thrives on digital trends and content performance metrics. Loves optimizing social media campaigns.",
+            experience: 6
         },
         {
             id: 6,
@@ -83,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Quality Assurance",
             location: "Mandaluyong City",
             skills: ["TestRail", "Selenium", "Manual Testing"],
-            bio: "Detail-oriented tester ensuring bugs don’t reach production. Finds joy in breaking things and fixing them."
+            bio: "Detail-oriented tester ensuring bugs don't reach production. Finds joy in breaking things and fixing them.",
+            experience: 4
         },
         {
             id: 7,
@@ -97,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Design",
             location: "Baguio City",
             skills: ["Figma", "Wireframing", "User Testing"],
-            bio: "Creates seamless designs rooted in real user feedback. Advocates for accessible design."
+            bio: "Creates seamless designs rooted in real user feedback. Advocates for accessible design.",
+            experience: 5
         },
         {
             id: 8,
@@ -111,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "IT",
             location: "Taguig City",
             skills: ["Cisco", "Firewalls", "LAN/WAN"],
-            bio: "Keeps networks stable and secure. Loves tinkering with routers and optimizing traffic flow."
+            bio: "Keeps networks stable and secure. Loves tinkering with routers and optimizing traffic flow.",
+            experience: 9
         },
         {
             id: 9,
@@ -125,7 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Operations",
             location: "Iloilo City",
             skills: ["Agile", "Scrum", "Risk Management"],
-            bio: "Hands-on project lead who ensures deadlines are met and teams collaborate effectively."
+            bio: "Hands-on project lead who ensures deadlines are met and teams collaborate effectively.",
+            experience: 10
         },
         {
             id: 10,
@@ -139,7 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Engineering",
             location: "Cavite",
             skills: ["Docker", "Kubernetes", "CI/CD"],
-            bio: "Passionate about automation and system reliability. Ensures the pipeline runs like clockwork."
+            bio: "Passionate about automation and system reliability. Ensures the pipeline runs like clockwork.",
+            experience: 7
         },
         {
             id: 11,
@@ -153,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Communications",
             location: "Batangas",
             skills: ["Copywriting", "Blogging", "SEO"],
-            bio: "Crafts compelling stories that align with brand identity. Loves writing content that educates and engages."
+            bio: "Crafts compelling stories that align with brand identity. Loves writing content that educates and engages.",
+            experience: 4
         },
         {
             id: 12,
@@ -167,7 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "IT",
             location: "San Fernando, Pampanga",
             skills: ["UML", "Data Modeling", "SQL"],
-            bio: "Bridges business needs and tech solutions. Enjoys turning problems into process improvements."
+            bio: "Bridges business needs and tech solutions. Enjoys turning problems into process improvements.",
+            experience: 6
         },
         {
             id: 13,
@@ -181,7 +193,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Analytics",
             location: "General Santos City",
             skills: ["Excel", "Power BI", "Python"],
-            bio: "Passionate about uncovering insights from data. Enjoys working with visualization tools to make numbers talk."
+            bio: "Passionate about uncovering insights from data. Enjoys working with visualization tools to make numbers talk.",
+            experience: 5
         },
         {
             id: 14,
@@ -195,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Support",
             location: "Cagayan de Oro",
             skills: ["Zendesk", "CRM", "Conflict Resolution"],
-            bio: "Ensures customer concerns are resolved with empathy and efficiency. Values the customer’s voice."
+            bio: "Ensures customer concerns are resolved with empathy and efficiency. Values the customer's voice.",
+            experience: 8
         },
         {
             id: 15,
@@ -209,7 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Sales",
             location: "Zamboanga City",
             skills: ["Shopify", "Inventory Management", "Conversion Optimization"],
-            bio: "E-commerce guru with a track record of increasing online sales. Focused on improving user shopping experience."
+            bio: "E-commerce guru with a track record of increasing online sales. Focused on improving user shopping experience.",
+            experience: 7
         },
         {
             id: 16,
@@ -223,7 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "IT Support",
             location: "Antipolo",
             skills: ["Troubleshooting", "Hardware Repair", "Remote Desktop"],
-            bio: "Friendly tech support go-to. Solves IT issues quickly and explains solutions in simple terms."
+            bio: "Friendly tech support go-to. Solves IT issues quickly and explains solutions in simple terms.",
+            experience: 4
         },
         {
             id: 17,
@@ -237,7 +253,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "L&D",
             location: "Laguna",
             skills: ["Learning Management Systems", "Facilitation", "Assessment"],
-            bio: "Coordinates staff development programs and workshops. Believes in lifelong learning and continuous improvement."
+            bio: "Coordinates staff development programs and workshops. Believes in lifelong learning and continuous improvement.",
+            experience: 6
         },
         {
             id: 18,
@@ -251,7 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Legal",
             location: "San Juan City",
             skills: ["Contract Review", "Corporate Law", "Compliance"],
-            bio: "Ensures all company practices follow Philippine laws. Passionate about ethical business practices."
+            bio: "Ensures all company practices follow Philippine laws. Passionate about ethical business practices.",
+            experience: 12
         },
         {
             id: 19,
@@ -265,7 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Finance",
             location: "Muntinlupa City",
             skills: ["Financial Reporting", "Budgeting", "QuickBooks"],
-            bio: "Keeps an eye on the bottom line. Works closely with departments to ensure sound budgeting and forecasting."
+            bio: "Keeps an eye on the bottom line. Works closely with departments to ensure sound budgeting and forecasting.",
+            experience: 9
         },
         {
             id: 20,
@@ -279,7 +298,8 @@ document.addEventListener('DOMContentLoaded', function() {
             department: "Marketing",
             location: "Las Piñas City",
             skills: ["Content Creation", "Analytics", "Engagement Strategy"],
-            bio: "Grows online presence and brand engagement. Loves turning likes into leads."
+            bio: "Grows online presence and brand engagement. Loves turning likes into leads.",
+            experience: 5
         }
     ];
 
@@ -302,16 +322,18 @@ document.addEventListener('DOMContentLoaded', function() {
             card.innerHTML = `
                 <div class="employee-avatar-container">
                     <img src="${employee.img}" alt="${employee.name}" class="employee-avatar">
+                    <span class="status ${employee.statusClass}">${employee.status}</span>
                 </div>
                 <div class="divider"></div>
                 <div class="employee-info">
                     <div class="employee-name">${employee.name}</div>
                     <div class="employee-role">${roleHTML}</div>
-                    <span class="status ${employee.statusClass}">${employee.status}</span>
+                    <div class="employee-experience">
+                        <span class="experience-badge">${employee.experience} years of experience</span>
+                    </div>
                     <button class="view-button">View Details</button>
                 </div>
             `;
-            
             employeeGrid.appendChild(card);
         });
 
@@ -349,13 +371,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modalDetails.innerHTML = `
             <div class="modal-header">
-                <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
-                <div>
+                <div class="modal-avatar-container">
+                    <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+                    <span class="modal-status ${employee.statusClass}">${employee.status}</span>
+                </div>
+                <div class="modal-header-info">
                     <h2 class="modal-name">${employee.name}</h2>
                     <div class="modal-role">
                         ${rolesHTML}
                     </div>
-                    <span class="modal-status ${employee.statusClass}">${employee.status}</span>
+                    <div class="modal-experience">
+                        <span class="experience-badge">${employee.experience}+ years experience</span>
+                    </div>
                 </div>
             </div>
             <div class="modal-details">
