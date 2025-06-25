@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/main-style.css">
+    <link rel="stylesheet" href="../CSS/dashboard.css">
     <title>TropaTayo - Dashboard</title>
 </head>
 <body>
@@ -73,6 +74,24 @@
             <!-- Content will be loaded here -->
             <div id="content-container">
                 <!-- Initial content loaded via JavaScript -->
+                <div class="dashboard-stats">
+                    <div class="stat-item">
+                        <h3 id="employeeCount">0</h3>
+                        <p>Number of Employees</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="projectCount">0</h3>
+                        <p>Number of Projects</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="availableCount">0</h3>
+                        <p>Available Employees</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 id="busyCount">0</h3>
+                        <p>Busy Employees</p>
+                    </div>
+                </div>
             </div>
             
             <div class="footer">
@@ -80,5 +99,34 @@
             </div>
         </div>
     </div>
+    <script src="../JS/employees.js"></script>
+    <script src="../JS/projects.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if employeesData and projectDetailsData are available globally
+        const employeeCountElem = document.getElementById('employeeCount');
+        const projectCountElem = document.getElementById('projectCount');
+        const availableCountElem = document.getElementById('availableCount');
+        const busyCountElem = document.getElementById('busyCount');
+
+        const employees = window.employeesData || [];
+        const projects = window.projectDetailsData || [];
+
+        if (employeeCountElem) {
+            employeeCountElem.textContent = employees.length;
+        }
+        if (projectCountElem) {
+            projectCountElem.textContent = projects.length;
+        }
+        if (availableCountElem) {
+            const availableCount = employees.filter(emp => emp.status === "Available").length;
+            availableCountElem.textContent = availableCount;
+        }
+        if (busyCountElem) {
+            const busyCount = employees.filter(emp => emp.status === "Busy").length;
+            busyCountElem.textContent = busyCount;
+        }
+    });
+    </script>
 </body>
 </html>
