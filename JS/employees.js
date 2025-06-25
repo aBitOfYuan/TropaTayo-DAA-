@@ -302,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
             experience: 5
         }
     ];
+
     // Get the container where employee cards will be inserted
     const employeeGrid = document.getElementById('employeeGrid');
     let currentEmployee = null;
@@ -632,26 +633,4 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('employeeModal').style.display = "none";
         }
     });
-
-    // Add event listeners for edit functionality
-    document.getElementById('editEmployeeBtn').addEventListener('click', enableEditMode);
-    document.getElementById('saveEmployeeBtn').addEventListener('click', saveEmployeeChanges);
-    document.getElementById('cancelEditBtn').addEventListener('click', disableEditMode);
 });
-
-// Functions for the add employee modal (already in your HTML)
-function openAddEmployeeForm() {
-    document.getElementById('addEmployeeModal').style.display = 'block';
-    // Clear any previous inputs
-    document.querySelectorAll('#addEmployeeForm input, #addEmployeeForm textarea').forEach(input => {
-        input.value = '';
-    });
-}
-
-function closeAddModal() {
-    document.getElementById('addEmployeeModal').style.display = 'none';
-}
-
-function closeModal() {
-    document.getElementById("employeeModal").style.display = "none";
-}
