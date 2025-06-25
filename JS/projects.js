@@ -226,6 +226,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // --- Local Storage: Save to local storage after adding new project ---
         const localStorageKey = 'projectDetailsData';
         localStorage.setItem(localStorageKey, JSON.stringify(window.projectDetailsData));
+        // Call updateEmployeeStatuses after project change
+        if (typeof updateEmployeeStatuses === 'function') updateEmployeeStatuses();
+        // Save updated employeesData
+        const employeeStorageKey = 'employeesData';
+        localStorage.setItem(employeeStorageKey, JSON.stringify(window.employeesData));
         // Close modal and reset form
         modalOverlay.classList.remove('active');
         clearProjectForm();
@@ -458,8 +463,25 @@ function showProjectDetails(index) {
             </div>
         `;
     }).join('');
-    detailsTeamMembers.innerHTML = metaHtml + teamHtml;
+    // Add Finish Project button
+    const finishBtnHtml = `<button id="finishProjectBtn" class="btn-finish-project">Finish Project</button>`;
+    detailsTeamMembers.innerHTML = metaHtml + teamHtml + finishBtnHtml;
     detailsModalOverlay.classList.add('active');
+    // Add event listener for finish button
+    document.getElementById('finishProjectBtn').onclick = function() {
+        // Remove project from projectDetailsData
+        window.projectDetailsData.splice(index, 1);
+        // Update localStorage
+        const localStorageKey = 'projectDetailsData';
+        localStorage.setItem(localStorageKey, JSON.stringify(window.projectDetailsData));
+        // Update employee statuses
+        if (typeof updateEmployeeStatuses === 'function') updateEmployeeStatuses();
+        const employeeStorageKey = 'employeesData';
+        localStorage.setItem(employeeStorageKey, JSON.stringify(window.employeesData));
+        // Close modal and refresh project list
+        detailsModalOverlay.classList.remove('active');
+        renderProjects();
+    };
 }
 
 // Function to convert a string to title case

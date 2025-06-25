@@ -1,306 +1,320 @@
 document.addEventListener('DOMContentLoaded', function() {
-window.employeesData = [
-    {
-        id: 1,
-        name: "Aiah Arceta",
-        img: "../Images/aiah.jpg",
-        role: ["Graphic Designer", "Visual Artist", "Content Creator"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "maria.santos@company.ph",
-        phone: "0917 123 4567",
-        department: "Creative",
-        location: "Makati, Metro Manila",
-        skills: ["Adobe Photoshop", "Illustrator", "Canva", "Figma", "Sketch"],
-        bio: "Skilled graphic designer and visual artist specializing in digital and print media. Creates compelling content that engages audiences.",
-        experience: 5
-    },
-    {
-        id: 2,
-        name: "Felip Jhon Suson",
-        img: "../Images/nek.jpg",
-        role: ["Full Stack Developer", "Software Engineer", "Web Developer"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "juan.delacruz@company.ph",
-        phone: "0928 234 5678",
-        department: "IT",
-        location: "Quezon City",
-        skills: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "HTML", "CSS"],
-        bio: "Versatile full-stack developer with expertise in building scalable web applications using React, Node.js, and MongoDB.",
-        experience: 7
-    },
-    {
-        id: 3,
-        name: "Justin De Dios",
-        img: "../Images/justin.jpg",
-        role: "Backend Developer",
-        status: "Available",
-        statusClass: "status-available",
-        email: "ana.villanueva@company.ph",
-        phone: "0915 345 6789",
-        department: "Human Resources",
-        location: "Pasig City",
-        skills: ["Node.js", "Express", "MongoDB"],
-        bio: "Backend developer focused on building robust APIs and server-side solutions to support HR systems and workflows.",
-        experience: 3
-    },
-    {
-        id: 4,
-        name: "Bongbong Marcos",
-        img: "../Images/bbm.jpg",
-        role:  "DevOps Engineer",
-        status: "Available",
-        statusClass: "status-available",
-        email: "carlos.reyes@company.ph",
-        phone: "0947 456 7890",
-        department: "Development",
-        location: "Cebu City",
-        skills: ["Docker", "Kubernetes", "AWS"],
-        bio: "Experienced DevOps engineer skilled in containerization, orchestration, and cloud infrastructure management.",
-        experience: 8
-    },
-    {
-        id: 5,
-        name: "Sara Duterte",
-        img: "../Images/sara-duterte.jpg",
-        role:  "System Administrator",
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "liza.mendoza@company.ph",
-        phone: "0933 567 8901",
-        department: "Marketing",
-        location: "Davao City",
-        skills: ["Linux", "Networking", "Security"],
-        bio: "System administrator ensuring secure and reliable IT infrastructure to support marketing operations.",
-        experience: 6
-    },
-    {
-        id: 6,
-        name: "Sana Minatozaki",
-        img: "../Images/sana.webp",
-        role: ["Security Engineer", "Penetration Tester"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "nico.alvarado@company.ph",
-        phone: "0956 678 9012",
-        department: "Quality Assurance",
-        location: "Mandaluyong City",
-        skills: ["SIEM Tools", "Firewall Configuration", "IDS/IPS", "Ethical Hacking", "Metasploit", "OWASP Top 10"],
-        bio: "Security engineer specializing in penetration testing and vulnerability assessment to protect company assets.",
-        experience: 4
-    },
-    {
-        id: 7,
-        name: "Kim Tae-hyung",
-        img: "../Images/taeh.jpg",
-        role: ["Frontend Developer", "UI Developer"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "grace.lopez@company.ph",
-        phone: "0908 789 0123",
-        department: "Design",
-        location: "Baguio City",
-        skills: ["React", "TypeScript", "Redux", "Figma", "Storybook", "CSS-in-JS"],
-        bio: "Frontend developer focused on building user-friendly interfaces with React and TypeScript, emphasizing accessibility.",
-        experience: 5
-    },
-    {
-        id: 8,
-        name: "Jennie Kim",
-        img: "../Images/jennie.jpg",
-        role: ["Cloud Architect", "DevOps Engineer"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "paolo.enriquez@company.ph",
-        phone: "0999 890 1234",
-        department: "IT",
-        location: "Taguig City",
-        skills: ["AWS Solutions", "Terraform", "Cloud Security", "Kubernetes", "CI/CD Pipelines", "Infrastructure as Code"],
-        bio: "Cloud architect and DevOps engineer designing secure, scalable cloud infrastructure with automation and CI/CD pipelines.",
-        experience: 9
-    },
-    {
-        id: 9,
-        name: "Mary Loi Ricalde",
-        img: "../Images/maloi.jpg",
-        role: ["Technical Project Manager", "Scrum Master"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "janelle.cruz@company.ph",
-        phone: "0910 901 2345",
-        department: "Operations",
-        location: "Iloilo City",
-        skills: ["Agile Methodologies", "Risk Management", "JIRA", "Sprint Planning", "Retrospectives", "Team Coaching"],
-        bio: "Technical project manager and Scrum Master driving agile teams to deliver projects on time and within scope.",
-        experience: 10
-    },
-    {
-        id: 10,
-        name: "Jang Wonyoung",
-        img: "../Images/jang.jpg",
-        role: ["Backend Developer", "API Specialist"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "miguel.ramos@company.ph",
-        phone: "0921 012 3456",
-        department: "Engineering",
-        location: "Cavite",
-        skills: ["Node.js", "Python", "Microservices", "RESTful APIs", "GraphQL", "Swagger"],
-        bio: "Backend developer specializing in API design and microservices architecture using Node.js and Python.",
-        experience: 7
-    },
-    {
-        id: 11,
-        name: "Coco Martin",
-        img: "../Images/coco.jpg",
-        role: "Content Writer",
-        status: "Available",
-        statusClass: "status-available",
-        email: "elaine.torres@company.ph",
-        phone: "0932 123 4567",
-        department: "Communications",
-        location: "Batangas",
-        skills: ["Copywriting", "Blogging", "SEO"],
-        bio: "Content writer crafting engaging and SEO-optimized stories that align with brand messaging.",
-        experience: 4
-    },
-    {
-        id: 12,
-        name: "Kween Yasmin",
-        img: "../Images/kween.jpg",
-        role: ["Data Engineer", "ETL Developer"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "rafael.dimaculangan@company.ph",
-        phone: "0912 234 5678",
-        department: "IT",
-        location: "San Fernando, Pampanga",
-        skills:  ["Apache Spark", "Data Pipelines", "Big Data", "Informatica", "Talend", "Data Warehousing"],
-        bio: "Data engineer skilled in building and optimizing ETL pipelines and managing big data solutions.",
-        experience: 6
-    },
-    {
-        id: 13,
-        name: "Im Na-yeon",
-        img: "../Images/nayeon.jpg",
-        role: ["Data Analyst", "Business Intelligence Analyst", "Data Scientist"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "patricia.cruzado@company.ph",
-        phone: "0943 345 6789",
-        department: "Analytics",
-        location: "General Santos City",
-        skills: ["Excel", "Power BI", "Python"],
-        bio: "Data analyst passionate about uncovering insights and creating impactful visualizations using Power BI and Python.",
-        experience: 5
-    },
-    {
-        id: 14,
-        name: "Naruto Uzumaki",
-        img: "../Images/naruto.jpg",
-        role: ["Machine Learning Engineer", "Data Scientist"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "leo.gutierrez@company.ph",
-        phone: "0906 456 7890",
-        department: "Support",
-        location: "Cagayan de Oro",
-        skills: ["TensorFlow", "Model Deployment", "MLOps", "Python", "Pandas", "Statistical Modeling"],
-        bio: "Machine learning engineer focused on developing and deploying models to solve real-world problems.",
-        experience: 8
-    },
-    {
-        id: 15,
-        name: "Monkey D. Luffy",
-        img: "../Images/Monkey_D._Luffy.webp",
-        role: ["Product Manager", "Business Analyst"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "tricia.magpantay@company.ph",
-        phone: "0914 567 8901",
-        department: "Sales",
-        location: "Zamboanga City",
-        skills: ["Roadmapping", "User Stories", "Prioritization", "Requirements Gathering", "Process Mapping", "Use Cases"],
-        bio: "Product manager and business analyst driving product strategy and aligning business goals with user needs.",
-        experience: 7
-    },
-    {
-        id: 16,
-        name: "Ichigo Kurosaki",
-        img: "../Images/ichigo.jpg",
-        role:  ["Full Stack Developer", "Mobile Developer"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "jerome.aquino@company.ph",
-        phone: "0920 678 9012",
-        department: "IT Support",
-        location: "Antipolo",
-        skills: ["React", "Node.js", "PostgreSQL", "React Native", "Flutter", "Mobile UI"],
-        bio: "Full stack and mobile developer building responsive apps with React Native and Flutter for seamless user experiences.",
-        experience: 4
-    },
-    {
-        id: 17,
-        name: "Kris Bernal",
-        img: "../Images/kris.jpg",
-        role: ["QA Automation Engineer", "Test Architect"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "diana.francisco@company.ph",
-        phone: "0931 789 0123",
-        department: "L&D",
-        location: "Laguna",
-        skills: ["Selenium", "Cypress", "TestNG", "Test Strategy", "Framework Design", "Performance Testing"],
-        bio: "QA automation engineer designing test frameworks and strategies to ensure software quality and performance.",
-        experience: 6
-    },
-    {
-        id: 18,
-        name: "Ryzza Mae Dizon",
-        img: "../Images/ryzza.jpg",
-        role: ["Database Administrator", "Data Architect"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "aaron.salazar@company.ph",
-        phone: "0909 890 1234",
-        department: "Legal",
-        location: "San Juan City",
-        skills: ["SQL Server", "Query Optimization", "Backup Recovery", "Database Design", "NoSQL", "Data Modeling"],
-        bio: "Database administrator and data architect ensuring efficient data management and compliance with legal standards.",
-        experience: 12
-    },
-    {
-        id: 19,
-        name: "Taylor Swift",
-        img: "../Images/taylor.webp",
-        role: ["Blockchain Developer", "Smart Contract Engineer"],
-        status: "Busy",
-        statusClass: "status-busy",
-        email: "bea.pascual@company.ph",
-        phone: "0916 901 2345",
-        department: "Finance",
-        location: "Muntinlupa City",
-        skills: ["Solidity", "Ethereum", "Web3.js", "Security Audits", "DeFi Protocols", "Token Standards"],
-        bio: "Blockchain developer specializing in smart contracts and decentralized finance protocols.",
-        experience: 9
-    },
-    {
-        id: 20,
-        name: "Lebron James",
-        img: "../Images/lebron.jpg",
-        role: ["Site Reliability Engineer", "Performance Engineer"],
-        status: "Available",
-        statusClass: "status-available",
-        email: "erwin.navarro@company.ph",
-        phone: "0948 012 3456",
-        department: "Marketing",
-        location: "Las Piñas City",
-        skills: ["Monitoring", "Incident Response", "SLIs/SLOs", "Load Testing", "Profiling", "Optimization"],
-        bio: "Site reliability engineer focused on system monitoring, performance optimization, and incident response.",
-        experience: 5
+    // Modify the employee data initialization to use localStorage
+    const employeeStorageKey = 'employeesData';
+    let storedEmployees = localStorage.getItem(employeeStorageKey);
+    if (storedEmployees) {
+        window.employeesData = JSON.parse(storedEmployees);
+    } else {
+        window.employeesData = [
+            {
+                id: 1,
+                name: "Aiah Arceta",
+                img: "../Images/aiah.jpg",
+                role: ["Graphic Designer", "Visual Artist", "Content Creator"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "maria.santos@company.ph",
+                phone: "0917 123 4567",
+                department: "Creative",
+                location: "Makati, Metro Manila",
+                skills: ["Adobe Photoshop", "Illustrator", "Canva", "Figma", "Sketch"],
+                bio: "Skilled graphic designer and visual artist specializing in digital and print media. Creates compelling content that engages audiences.",
+                experience: 5
+            },
+            {
+                id: 2,
+                name: "Felip Jhon Suson",
+                img: "../Images/nek.jpg",
+                role: ["Full Stack Developer", "Software Engineer", "Web Developer"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "juan.delacruz@company.ph",
+                phone: "0928 234 5678",
+                department: "IT",
+                location: "Quezon City",
+                skills: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "HTML", "CSS"],
+                bio: "Versatile full-stack developer with expertise in building scalable web applications using React, Node.js, and MongoDB.",
+                experience: 7
+            },
+            {
+                id: 3,
+                name: "Justin De Dios",
+                img: "../Images/justin.jpg",
+                role: "Backend Developer",
+                status: "Available",
+                statusClass: "status-available",
+                email: "ana.villanueva@company.ph",
+                phone: "0915 345 6789",
+                department: "Human Resources",
+                location: "Pasig City",
+                skills: ["Node.js", "Express", "MongoDB"],
+                bio: "Backend developer focused on building robust APIs and server-side solutions to support HR systems and workflows.",
+                experience: 3
+            },
+            {
+                id: 4,
+                name: "Bongbong Marcos",
+                img: "../Images/bbm.jpg",
+                role:  "DevOps Engineer",
+                status: "Available",
+                statusClass: "status-available",
+                email: "carlos.reyes@company.ph",
+                phone: "0947 456 7890",
+                department: "Development",
+                location: "Cebu City",
+                skills: ["Docker", "Kubernetes", "AWS"],
+                bio: "Experienced DevOps engineer skilled in containerization, orchestration, and cloud infrastructure management.",
+                experience: 8
+            },
+            {
+                id: 5,
+                name: "Sara Duterte",
+                img: "../Images/sara-duterte.jpg",
+                role:  "System Administrator",
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "liza.mendoza@company.ph",
+                phone: "0933 567 8901",
+                department: "Marketing",
+                location: "Davao City",
+                skills: ["Linux", "Networking", "Security"],
+                bio: "System administrator ensuring secure and reliable IT infrastructure to support marketing operations.",
+                experience: 6
+            },
+            {
+                id: 6,
+                name: "Sana Minatozaki",
+                img: "../Images/sana.webp",
+                role: ["Security Engineer", "Penetration Tester"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "nico.alvarado@company.ph",
+                phone: "0956 678 9012",
+                department: "Quality Assurance",
+                location: "Mandaluyong City",
+                skills: ["SIEM Tools", "Firewall Configuration", "IDS/IPS", "Ethical Hacking", "Metasploit", "OWASP Top 10"],
+                bio: "Security engineer specializing in penetration testing and vulnerability assessment to protect company assets.",
+                experience: 4
+            },
+            {
+                id: 7,
+                name: "Kim Tae-hyung",
+                img: "../Images/taeh.jpg",
+                role: ["Frontend Developer", "UI Developer"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "grace.lopez@company.ph",
+                phone: "0908 789 0123",
+                department: "Design",
+                location: "Baguio City",
+                skills: ["React", "TypeScript", "Redux", "Figma", "Storybook", "CSS-in-JS"],
+                bio: "Frontend developer focused on building user-friendly interfaces with React and TypeScript, emphasizing accessibility.",
+                experience: 5
+            },
+            {
+                id: 8,
+                name: "Jennie Kim",
+                img: "../Images/jennie.jpg",
+                role: ["Cloud Architect", "DevOps Engineer"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "paolo.enriquez@company.ph",
+                phone: "0999 890 1234",
+                department: "IT",
+                location: "Taguig City",
+                skills: ["AWS Solutions", "Terraform", "Cloud Security", "Kubernetes", "CI/CD Pipelines", "Infrastructure as Code"],
+                bio: "Cloud architect and DevOps engineer designing secure, scalable cloud infrastructure with automation and CI/CD pipelines.",
+                experience: 9
+            },
+            {
+                id: 9,
+                name: "Mary Loi Ricalde",
+                img: "../Images/maloi.jpg",
+                role: ["Technical Project Manager", "Scrum Master"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "janelle.cruz@company.ph",
+                phone: "0910 901 2345",
+                department: "Operations",
+                location: "Iloilo City",
+                skills: ["Agile Methodologies", "Risk Management", "JIRA", "Sprint Planning", "Retrospectives", "Team Coaching"],
+                bio: "Technical project manager and Scrum Master driving agile teams to deliver projects on time and within scope.",
+                experience: 10
+            },
+            {
+                id: 10,
+                name: "Jang Wonyoung",
+                img: "../Images/jang.jpg",
+                role: ["Backend Developer", "API Specialist"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "miguel.ramos@company.ph",
+                phone: "0921 012 3456",
+                department: "Engineering",
+                location: "Cavite",
+                skills: ["Node.js", "Python", "Microservices", "RESTful APIs", "GraphQL", "Swagger"],
+                bio: "Backend developer specializing in API design and microservices architecture using Node.js and Python.",
+                experience: 7
+            },
+            {
+                id: 11,
+                name: "Coco Martin",
+                img: "../Images/coco.jpg",
+                role: "Content Writer",
+                status: "Available",
+                statusClass: "status-available",
+                email: "elaine.torres@company.ph",
+                phone: "0932 123 4567",
+                department: "Communications",
+                location: "Batangas",
+                skills: ["Copywriting", "Blogging", "SEO"],
+                bio: "Content writer crafting engaging and SEO-optimized stories that align with brand messaging.",
+                experience: 4
+            },
+            {
+                id: 12,
+                name: "Kween Yasmin",
+                img: "../Images/kween.jpg",
+                role: ["Data Engineer", "ETL Developer"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "rafael.dimaculangan@company.ph",
+                phone: "0912 234 5678",
+                department: "IT",
+                location: "San Fernando, Pampanga",
+                skills:  ["Apache Spark", "Data Pipelines", "Big Data", "Informatica", "Talend", "Data Warehousing"],
+                bio: "Data engineer skilled in building and optimizing ETL pipelines and managing big data solutions.",
+                experience: 6
+            },
+            {
+                id: 13,
+                name: "Im Na-yeon",
+                img: "../Images/nayeon.jpg",
+                role: ["Data Analyst", "Business Intelligence Analyst", "Data Scientist"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "patricia.cruzado@company.ph",
+                phone: "0943 345 6789",
+                department: "Analytics",
+                location: "General Santos City",
+                skills: ["Excel", "Power BI", "Python"],
+                bio: "Data analyst passionate about uncovering insights and creating impactful visualizations using Power BI and Python.",
+                experience: 5
+            },
+            {
+                id: 14,
+                name: "Naruto Uzumaki",
+                img: "../Images/naruto.jpg",
+                role: ["Machine Learning Engineer", "Data Scientist"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "leo.gutierrez@company.ph",
+                phone: "0906 456 7890",
+                department: "Support",
+                location: "Cagayan de Oro",
+                skills: ["TensorFlow", "Model Deployment", "MLOps", "Python", "Pandas", "Statistical Modeling"],
+                bio: "Machine learning engineer focused on developing and deploying models to solve real-world problems.",
+                experience: 8
+            },
+            {
+                id: 15,
+                name: "Monkey D. Luffy",
+                img: "../Images/Monkey_D._Luffy.webp",
+                role: ["Product Manager", "Business Analyst"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "tricia.magpantay@company.ph",
+                phone: "0914 567 8901",
+                department: "Sales",
+                location: "Zamboanga City",
+                skills: ["Roadmapping", "User Stories", "Prioritization", "Requirements Gathering", "Process Mapping", "Use Cases"],
+                bio: "Product manager and business analyst driving product strategy and aligning business goals with user needs.",
+                experience: 7
+            },
+            {
+                id: 16,
+                name: "Ichigo Kurosaki",
+                img: "../Images/ichigo.jpg",
+                role:  ["Full Stack Developer", "Mobile Developer"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "jerome.aquino@company.ph",
+                phone: "0920 678 9012",
+                department: "IT Support",
+                location: "Antipolo",
+                skills: ["React", "Node.js", "PostgreSQL", "React Native", "Flutter", "Mobile UI"],
+                bio: "Full stack and mobile developer building responsive apps with React Native and Flutter for seamless user experiences.",
+                experience: 4
+            },
+            {
+                id: 17,
+                name: "Kris Bernal",
+                img: "../Images/kris.jpg",
+                role: ["QA Automation Engineer", "Test Architect"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "diana.francisco@company.ph",
+                phone: "0931 789 0123",
+                department: "L&D",
+                location: "Laguna",
+                skills: ["Selenium", "Cypress", "TestNG", "Test Strategy", "Framework Design", "Performance Testing"],
+                bio: "QA automation engineer designing test frameworks and strategies to ensure software quality and performance.",
+                experience: 6
+            },
+            {
+                id: 18,
+                name: "Ryzza Mae Dizon",
+                img: "../Images/ryzza.jpg",
+                role: ["Database Administrator", "Data Architect"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "aaron.salazar@company.ph",
+                phone: "0909 890 1234",
+                department: "Legal",
+                location: "San Juan City",
+                skills: ["SQL Server", "Query Optimization", "Backup Recovery", "Database Design", "NoSQL", "Data Modeling"],
+                bio: "Database administrator and data architect ensuring efficient data management and compliance with legal standards.",
+                experience: 12
+            },
+            {
+                id: 19,
+                name: "Taylor Swift",
+                img: "../Images/taylor.webp",
+                role: ["Blockchain Developer", "Smart Contract Engineer"],
+                status: "Busy",
+                statusClass: "status-busy",
+                email: "bea.pascual@company.ph",
+                phone: "0916 901 2345",
+                department: "Finance",
+                location: "Muntinlupa City",
+                skills: ["Solidity", "Ethereum", "Web3.js", "Security Audits", "DeFi Protocols", "Token Standards"],
+                bio: "Blockchain developer specializing in smart contracts and decentralized finance protocols.",
+                experience: 9
+            },
+            {
+                id: 20,
+                name: "Lebron James",
+                img: "../Images/lebron.jpg",
+                role: ["Site Reliability Engineer", "Performance Engineer"],
+                status: "Available",
+                statusClass: "status-available",
+                email: "erwin.navarro@company.ph",
+                phone: "0948 012 3456",
+                department: "Marketing",
+                location: "Las Piñas City",
+                skills: ["Monitoring", "Incident Response", "SLIs/SLOs", "Load Testing", "Profiling", "Optimization"],
+                bio: "Site reliability engineer focused on system monitoring, performance optimization, and incident response.",
+                experience: 5
+            }
+        ];
+        // Initialize all statuses to Available
+        window.employeesData.forEach(emp => {
+            emp.status = "Available";
+            emp.statusClass = "status-available";
+        });
+        localStorage.setItem(employeeStorageKey, JSON.stringify(window.employeesData));
     }
-];
+
     // DOM elements and state variables
     const employeeGrid = document.getElementById('employeeGrid');
     let currentEmployee = null; // Currently viewed/edited employee
@@ -386,12 +400,6 @@ window.employeesData = [
                 <div class="modal-header">
                     <div class="modal-avatar-container">
                         <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
-                        <select class="editable-select" id="statusSelect">
-                            <option value="available" ${employee.status === 'Available' ? 'selected' : ''}>Available</option>
-                            <option value="busy" ${employee.status === 'Busy' ? 'selected' : ''}>Busy</option>
-                            <option value="remote" ${employee.status === 'Remote' ? 'selected' : ''}>Remote</option>
-                            <option value="on-leave" ${employee.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
-                        </select>
                     </div>
                     <div class="modal-header-info">
                         <input type="text" class="editable-field modal-name" value="${employee.name}">
@@ -506,11 +514,6 @@ window.employeesData = [
         currentEmployee.name = modalDetails.querySelector('.modal-name').value;
         currentEmployee.role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
         
-        // Update status
-        const statusSelect = modalDetails.querySelector('#statusSelect');
-        currentEmployee.status = statusSelect.options[statusSelect.selectedIndex].text;
-        currentEmployee.statusClass = `status-${statusSelect.value}`;
-        
         // Update other fields
         currentEmployee.experience = parseInt(modalDetails.querySelector('.modal-header-info input:nth-of-type(2)').value);
         currentEmployee.email = inputs[3].value;
@@ -557,4 +560,32 @@ window.employeesData = [
             document.getElementById('employeeModal').style.display = "none";
         }
     });
+
+    // Simplified status update function
+    function updateEmployeeStatuses() {
+        // Reset all employees to Available
+        window.employeesData.forEach(emp => {
+            emp.status = "Available";
+            emp.statusClass = "status-available";
+        });
+
+        // Mark employees in projects as Busy
+        if (window.projectDetailsData) {
+            window.projectDetailsData.forEach(project => {
+                if (project.team) {
+                    project.team.forEach(member => {
+                        const employee = window.employeesData.find(e => e.name === member.name);
+                        if (employee) {
+                            employee.status = "Busy";
+                            employee.statusClass = "status-busy";
+                        }
+                    });
+                }
+            });
+        }
+        // Save updated statuses
+        localStorage.setItem(employeeStorageKey, JSON.stringify(window.employeesData));
+    }
+
+    if (typeof updateEmployeeStatuses === 'function') updateEmployeeStatuses();
 });

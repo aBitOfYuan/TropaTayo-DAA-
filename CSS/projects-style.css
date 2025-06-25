@@ -707,3 +707,24 @@ form input {
         gap: 1rem;
     }
 }
+
+.btn-finish-project {
+    position: absolute;
+    bottom: 1rem;
+    right: 8.5rem; /* Place to the left of view details if both are present */
+    top: auto;
+    margin-top: 0;
+    padding: 0.28rem 0.8rem;
+    background: var(--primary, #3a86ff);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 2;
+}
+.btn-finish-project:hover {
+    background: var(--primary-dark, #2667cc);
+}
