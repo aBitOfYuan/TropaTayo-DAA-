@@ -1,3 +1,5 @@
+let uploadedImageDataURL = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Load from localStorage or initialize with default data
     const savedData = localStorage.getItem('employeesData');
@@ -533,10 +535,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const newEmployee = {
             id: employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1,
             name: document.getElementById('newEmployeeName').value,
-            img: document.getElementById('newEmployeeImage').value || "../Images/default-avatar.jpg",
+            img: uploadedImageDataURL || "../Images/default-avatar.jpg",
             role: document.getElementById('newEmployeeRole').value.split(',').map(r => r.trim()),
-             status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
-        statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
+            status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
+            statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
             email: document.getElementById('newEmployeeEmail').value,
             phone: document.getElementById('newEmployeePhone').value,
             department: document.getElementById('newEmployeeDepartment').value,
@@ -551,10 +553,47 @@ document.addEventListener('DOMContentLoaded', function() {
         generateEmployeeCards();
         closeAddModal();
         showSuccessMessage('Employee added successfully!');
+        // Reset uploaded image data URL after adding
+        uploadedImageDataURL = null;
+        // Reset image preview and file input
+        const imagePreview = document.getElementById('newEmployeeImagePreview');
+        const imageUploadInput = document.getElementById('newEmployeeImageUpload');
+        if (imagePreview) imagePreview.src = "../Images/default-avatar.jpg";
+        if (imageUploadInput) imageUploadInput.value = '';
     };
 
     // Initialize
     generateEmployeeCards();
+
+    // Handle image upload preview
+    const imageUploadInput = document.getElementById('newEmployeeImageUpload');
+    const imagePreview = document.getElementById('newEmployeeImagePreview');
+
+    if (imageUploadInput && imagePreview) {
+        imageUploadInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageDataURL = e.target.result;
+                    imagePreview.src = uploadedImageDataURL;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadedImageDataURL = null;
+                imagePreview.src = "../Images/default-avatar.jpg";
+            }
+        });
+    }
+
+    // Clear image preview and uploadedImageDataURL when opening add employee form
+    const openAddEmployeeFormOriginal = window.openAddEmployeeForm;
+    window.openAddEmployeeForm = function() {
+        uploadedImageDataURL = null;
+        if (imagePreview) imagePreview.src = "../Images/default-avatar.jpg";
+        if (imageUploadInput) imageUploadInput.value = '';
+        openAddEmployeeFormOriginal();
+    };
 
     // Close modal handlers
     document.querySelector('.close')?.addEventListener('click', () => {
