@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-window.employeesData = [
+    // Load from localStorage or initialize with default data
+    const savedData = localStorage.getItem('employeesData');
+    window.employeesData = savedData ? JSON.parse(savedData) : [
     {
         id: 1,
         name: "Aiah Arceta",
