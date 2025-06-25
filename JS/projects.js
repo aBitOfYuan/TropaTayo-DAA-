@@ -327,6 +327,7 @@ const initialProjectData = [
 // Initialize global project data if it doesn't exist
 // --- Local Storage: Load from local storage if available ---
 const localStorageKey = 'projectDetailsData';
+
 let storedProjects = localStorage.getItem(localStorageKey);
 window.projectDetailsData = window.projectDetailsData || [];
 if (storedProjects) {
