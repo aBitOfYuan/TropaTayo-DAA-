@@ -146,7 +146,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const projectName = document.getElementById('projectName').value;
         const projectDescription = document.getElementById('projectDescription').value;
         const expMin = parseInt(document.getElementById('minExperience').value);
-        const expMax = document.getElementById('maxExperience').value;
+        const expMax = parseInt(document.getElementById('maxExperience').value);
+        // Experience validation
+        if (isNaN(expMin) || isNaN(expMax) || expMin < 1 || expMax < 1) {
+            alert('Experience must be greater than 1 for both minimum and maximum.');
+            return;
+        }
+        if (expMin >= expMax) {
+            alert('Minimum experience must be less than maximum experience.');
+            return;
+        }
         const dueDate = document.getElementById('dueDate') ? document.getElementById('dueDate').value : null;
         const roles = [];
         document.querySelectorAll('.role-entry').forEach(entry => {
@@ -189,6 +198,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // Create project team
         const projectTeam = realAssignments.map(ass => {
             const emp = availableEmployees[ass.employee];
+            // Set employee status to Busy
+            if (window.employeesData) {
+                const empObj = window.employeesData.find(e => e.name === emp.name);
+                if (empObj) {
+                    empObj.status = 'Busy';
+                    empObj.statusClass = 'status-busy';
+                }
+            }
             return {
                 name: emp.name,
                 role: projectData.roles[ass.role].roleName,
