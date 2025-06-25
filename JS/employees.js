@@ -1,3 +1,5 @@
+let uploadedImageDataURL = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Load from localStorage or initialize with default data
     const savedData = localStorage.getItem('employeesData');
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Graphic Designer", "Visual Artist", "Content Creator"],
         status: "Available",
         statusClass: "status-available",
-        email: "maria.santos@company.ph",
+        email: "aiah.arceta@company.ph",
         phone: "0917 123 4567",
         department: "Creative",
         location: "Makati, Metro Manila",
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Full Stack Developer", "Software Engineer", "Web Developer"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "juan.delacruz@company.ph",
+        email: "felip.suson@company.ph",
         phone: "0928 234 5678",
         department: "IT",
         location: "Quezon City",
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: "Backend Developer",
         status: "Available",
         statusClass: "status-available",
-        email: "ana.villanueva@company.ph",
+        email: "justin.dedios@company.ph",
         phone: "0915 345 6789",
         department: "Human Resources",
         location: "Pasig City",
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role:  "DevOps Engineer",
         status: "Available",
         statusClass: "status-available",
-        email: "carlos.reyes@company.ph",
+        email: "bongbong.marcos@company.ph",
         phone: "0947 456 7890",
         department: "Development",
         location: "Cebu City",
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role:  "System Administrator",
         status: "Busy",
         statusClass: "status-busy",
-        email: "liza.mendoza@company.ph",
+        email: "sara.duterte@company.ph",
         phone: "0933 567 8901",
         department: "Marketing",
         location: "Davao City",
@@ -84,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Security Engineer", "Penetration Tester"],
         status: "Available",
         statusClass: "status-available",
-        email: "nico.alvarado@company.ph",
+        email: "sana.minatozaki@company.ph",
         phone: "0956 678 9012",
         department: "Quality Assurance",
         location: "Mandaluyong City",
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Frontend Developer", "UI Developer"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "grace.lopez@company.ph",
+        email: "kim.taehyung@company.ph",
         phone: "0908 789 0123",
         department: "Design",
         location: "Baguio City",
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Cloud Architect", "DevOps Engineer"],
         status: "Available",
         statusClass: "status-available",
-        email: "paolo.enriquez@company.ph",
+        email: "jennie.kim@company.ph",
         phone: "0999 890 1234",
         department: "IT",
         location: "Taguig City",
@@ -129,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Technical Project Manager", "Scrum Master"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "janelle.cruz@company.ph",
+        email: "mariloi.ricalde@company.ph",
         phone: "0910 901 2345",
         department: "Operations",
         location: "Iloilo City",
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Backend Developer", "API Specialist"],
         status: "Available",
         statusClass: "status-available",
-        email: "miguel.ramos@company.ph",
+        email: "jang.wonyoung@company.ph",
         phone: "0921 012 3456",
         department: "Engineering",
         location: "Cavite",
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: "Content Writer",
         status: "Available",
         statusClass: "status-available",
-        email: "elaine.torres@company.ph",
+        email: "coco.martin@company.ph",
         phone: "0932 123 4567",
         department: "Communications",
         location: "Batangas",
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Data Engineer", "ETL Developer"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "rafael.dimaculangan@company.ph",
+        email: "kween.yasmin@company.ph",
         phone: "0912 234 5678",
         department: "IT",
         location: "San Fernando, Pampanga",
@@ -189,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Data Analyst", "Business Intelligence Analyst", "Data Scientist"],
         status: "Available",
         statusClass: "status-available",
-        email: "patricia.cruzado@company.ph",
+        email: "im.na-yeon@company.ph",
         phone: "0943 345 6789",
         department: "Analytics",
         location: "General Santos City",
@@ -204,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Machine Learning Engineer", "Data Scientist"],
         status: "Available",
         statusClass: "status-available",
-        email: "leo.gutierrez@company.ph",
+        email: "naruto.uzumaki@company.ph",
         phone: "0906 456 7890",
         department: "Support",
         location: "Cagayan de Oro",
@@ -214,12 +216,12 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     {
         id: 15,
-        name: "Monkey D. Luffy",
+        name: "Monkey Luffy",
         img: "../Images/Monkey_D._Luffy.webp",
         role: ["Product Manager", "Business Analyst"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "tricia.magpantay@company.ph",
+        email: "monkey.luffy@company.ph",
         phone: "0914 567 8901",
         department: "Sales",
         location: "Zamboanga City",
@@ -234,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role:  ["Full Stack Developer", "Mobile Developer"],
         status: "Available",
         statusClass: "status-available",
-        email: "jerome.aquino@company.ph",
+        email: "ichigo.kurosaki@company.ph",
         phone: "0920 678 9012",
         department: "IT Support",
         location: "Antipolo",
@@ -249,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["QA Automation Engineer", "Test Architect"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "diana.francisco@company.ph",
+        email: "kris.bernal@company.ph",
         phone: "0931 789 0123",
         department: "L&D",
         location: "Laguna",
@@ -264,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Database Administrator", "Data Architect"],
         status: "Available",
         statusClass: "status-available",
-        email: "aaron.salazar@company.ph",
+        email: "ryza.dizon@company.ph",
         phone: "0909 890 1234",
         department: "Legal",
         location: "San Juan City",
@@ -279,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Blockchain Developer", "Smart Contract Engineer"],
         status: "Busy",
         statusClass: "status-busy",
-        email: "bea.pascual@company.ph",
+        email: "taylor.swift@company.ph",
         phone: "0916 901 2345",
         department: "Finance",
         location: "Muntinlupa City",
@@ -294,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
         role: ["Site Reliability Engineer", "Performance Engineer"],
         status: "Available",
         statusClass: "status-available",
-        email: "erwin.navarro@company.ph",
+        email: "lebron.james@company.ph",
         phone: "0948 012 3456",
         department: "Marketing",
         location: "Las Piñas City",
@@ -540,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const newEmployee = {
             id: employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1,
             name: document.getElementById('newEmployeeName').value,
-            img: document.getElementById('newEmployeeImage').value || "../Images/default-avatar.jpg",
+            img: uploadedImageDataURL || "../Images/default-avatar.jpg",
             role: document.getElementById('newEmployeeRole').value.split(',').map(r => r.trim()),
             status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
             statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
@@ -558,10 +560,47 @@ document.addEventListener('DOMContentLoaded', function() {
         generateEmployeeCards();
         closeAddModal();
         showSuccessMessage('Employee added successfully!');
+        // Reset uploaded image data URL after adding
+        uploadedImageDataURL = null;
+        // Reset image preview and file input
+        const imagePreview = document.getElementById('newEmployeeImagePreview');
+        const imageUploadInput = document.getElementById('newEmployeeImageUpload');
+        if (imagePreview) imagePreview.src = "../Images/default-avatar.jpg";
+        if (imageUploadInput) imageUploadInput.value = '';
     };
 
     // Initialize
     generateEmployeeCards();
+
+    // Handle image upload preview
+    const imageUploadInput = document.getElementById('newEmployeeImageUpload');
+    const imagePreview = document.getElementById('newEmployeeImagePreview');
+
+    if (imageUploadInput && imagePreview) {
+        imageUploadInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageDataURL = e.target.result;
+                    imagePreview.src = uploadedImageDataURL;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                uploadedImageDataURL = null;
+                imagePreview.src = "../Images/default-avatar.jpg";
+            }
+        });
+    }
+
+    // Clear image preview and uploadedImageDataURL when opening add employee form
+    const openAddEmployeeFormOriginal = window.openAddEmployeeForm;
+    window.openAddEmployeeForm = function() {
+        uploadedImageDataURL = null;
+        if (imagePreview) imagePreview.src = "../Images/default-avatar.jpg";
+        if (imageUploadInput) imageUploadInput.value = '';
+        openAddEmployeeFormOriginal();
+    };
 
     // Close modal handlers
     document.querySelector('.close')?.addEventListener('click', () => {

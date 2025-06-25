@@ -12,12 +12,8 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg" class="nav-icon">
-          <path d="M19 21C19 17.134 15.866 14 12 14C8.13401 14 5 17.134 5 21M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <span>Tropa</span>Tayo
+          <img src="../Images/logo.png" alt="Tropa Tayo Logo" class="logo-image">
+          <span class="logo-text">Tropa <span class="blue-text">Tayo</span></span>
       </div>
       <nav class="nav-menu">
         <a href="dashboard.html" class="nav-item">
@@ -130,8 +126,9 @@
                 <textarea class="editable-textarea" id="newEmployeeBio" placeholder="Employee bio"></textarea>
               </div>
               <div class="detail-group" style="grid-column: span 2;">
-                <h4>Profile Image URL</h4>
-                <input type="text" class="editable-field" id="newEmployeeImage" placeholder="Image URL (or leave blank for default)">
+                <h4>Profile Image</h4>
+                <input type="file" accept="image/*" class="editable-field" id="newEmployeeImageUpload">
+                <img id="newEmployeeImagePreview" src="../Images/default-avatar.jpg" alt="Image Preview" style="margin-top: 0.5rem; max-width: 150px; max-height: 150px; display: block; border-radius: 8px;">
               </div>
             </div>
           </div>

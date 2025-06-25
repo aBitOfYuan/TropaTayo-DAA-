@@ -298,6 +298,7 @@ body {
 }
 
 .modal-experience .experience-badge {
+  margin-top: 1rem;
   padding: 0.3rem 0.8rem;
   font-size: 0.8rem;
 }
@@ -358,6 +359,7 @@ body {
 }
 
 .skill-badge {
+  margin-top: 1rem;
   display: inline-block;
   background: var(--primary-light);
   color: var(--primary);

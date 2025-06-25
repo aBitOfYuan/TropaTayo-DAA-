@@ -1,11 +1,12 @@
 // ✅ INPUT SCORE MATRIX (roles x employees)
 const scores = [
-    [19, 18, 20, 16, 63],
-    [19, 18, 20, 16, 17],
-    [19, 50, 20, 16, 17],
-    [60, 50, 20, 16, 17],
-    [19, 40, 20, 16, 17]
+    [15,10,18,12,16],
+    [19,15,14,17,20],
+    [11,18,10,12,13],
+    [15,16,17,18,14],
+    [13,12,19,11,15]
 ];
+
 
 // Choose which score matrix to use
 const currentScores = scores;
@@ -63,7 +64,19 @@ function hungarianAlgorithm(scoreMatrix) {
             costMatrix[i][j] -= minVal;
         }
     }
-    // Step 2: Initial starring of zeros
+
+    // Step 2: Subtract column minima
+    for (let j = 0; j < n; j++) { // Iterate through columns
+        let minVal = Infinity;
+        for (let i = 0; i < n; i++) { // Find minimum in the current column
+            minVal = Math.min(minVal, costMatrix[i][j]);
+        }
+        for (let i = 0; i < n; i++) { // Subtract minimum from all elements in the column
+            costMatrix[i][j] -= minVal;
+        }
+    }
+
+    // Step 3: Initial starring of zeros
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
             if (Math.abs(costMatrix[i][j]) < FLOAT_TOL && !rowCover[i] && !colCover[j]) {

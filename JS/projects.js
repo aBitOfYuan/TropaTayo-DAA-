@@ -85,60 +85,107 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add role button event listener
     addRoleBtn.addEventListener('click', addRoleField);
 
-    // --- Scoring Functions for Assignment ---
-    function calculateRoleScore(employeeRole, requiredRole) {
-        const employeeRoles = Array.isArray(employeeRole)
-            ? employeeRole.map(r => r.toLowerCase())
-            : [employeeRole.toLowerCase()];
-        return employeeRoles.includes(requiredRole.toLowerCase()) ? 6 : -5;
-    }
-
-    function calculateSkillsScore(employeeSkills, requiredSkills) {
-        if (!requiredSkills || requiredSkills.length === 0) return 0;
-        const matchedCount = requiredSkills.filter(skill =>
-            employeeSkills.map(s => s.toLowerCase()).includes(skill.toLowerCase())
-        ).length;
-        const matchRatio = matchedCount / requiredSkills.length;
-        return matchedCount === 0 ? 0 : Math.ceil(matchRatio * 10);
-    }
-
-    function calculateExperienceScore(employeeExp, expMin, expMax) {
-        if (isNaN(expMin)) return 0;
-        return (employeeExp >= expMin && employeeExp <= expMax) ? 4 : 0;
-    }
-
-    function buildScoreMatrix(project, employees) {
-        // Filter out employees who are "Busy"
-        const availableEmployees = employees.filter(emp => emp.status !== "Busy");
-        // Build the matrix
-        const matrix = project.roles.map(role => {
-            return availableEmployees.map(employee => {
-                const roleScore = calculateRoleScore(employee.role, role.roleName || role.role);
-                const skillsScore = calculateSkillsScore(employee.skills, role.skills);
-                const expScore = calculateExperienceScore(
-                    employee.experience,
-                    project.expMin,
-                    project.expMax
-                );
-                const total = roleScore + skillsScore + expScore;
-                console.log(`Score for ${employee.name} on ${role.roleName || role.role}: Role: ${roleScore}, Skills: ${skillsScore}, Exp: ${expScore}, Total: ${total}`);
-                return total;
-            });
+// --- Scoring Functions for Assignment ---
+function calculateRoleScore(employeeRole, requiredRole) {
+    let employeeRoles;
+    if (Array.isArray(employeeRole)) {
+        employeeRoles = employeeRole.map(function(r) {
+            return r.toLowerCase();
         });
-        // Console log: header row with employee names and roles
-        const header = ['Role \\ Employee'].concat(
-            availableEmployees.map(emp => `${emp.name} (${Array.isArray(emp.role) ? emp.role[0] : emp.role})`)
-        );
-        console.log(header.join('\t'));
-        // Console log: each row with role and scores
-        matrix.forEach((row, i) => {
-            const roleName = project.roles[i].roleName || project.roles[i].role;
-            console.log([roleName].concat(row).join('\t'));
-        });
-        // Attach availableEmployees for assignment mapping
-        matrix.availableEmployees = availableEmployees;
-        return matrix;
+    } else {
+        employeeRoles = [employeeRole.toLowerCase()];
     }
+
+    if (employeeRoles.includes(requiredRole.toLowerCase())) {
+        return 6;
+    } else {
+        return 0;
+    }
+}
+
+// --- Scoring for Skills ---
+function calculateSkillsScore(employeeSkills, requiredSkills) {
+    if (!requiredSkills || requiredSkills.length === 0) {
+        return 0;
+    }
+
+    const lowerEmployeeSkills = employeeSkills.map(function(s) {
+        return s.toLowerCase();
+    });
+
+    const matchedSkills = requiredSkills.filter(function(skill) {
+        return lowerEmployeeSkills.includes(skill.toLowerCase());
+    });
+
+    const matchedCount = matchedSkills.length;
+    const matchRatio = matchedCount / requiredSkills.length;
+
+    if (matchedCount === 0) {
+        return 0;
+    } else {
+        return Math.ceil(matchRatio * 10);
+    }
+}
+
+// --- Scoring for Experience ---
+function calculateExperienceScore(employeeExp, expMin, expMax) {
+    if (isNaN(expMin)) {
+        return 0;
+    }
+    if (employeeExp >= expMin && employeeExp <= expMax) {
+        return 4;
+    } else {
+        return 0;
+    }
+}
+
+// --- Build Score Matrix ---
+function buildScoreMatrix(project, employees) {
+    // Filter out employees who are "Busy"
+    const availableEmployees = employees.filter(function(emp) {
+        return emp.status !== "Busy";
+    });
+
+    // Build the matrix
+    const matrix = project.roles.map(function(role) {
+        return availableEmployees.map(function(employee) {
+            const roleName = role.roleName || role.role;
+            const employeeExp = employee.experience;
+            const roleScore = calculateRoleScore(employee.role, roleName);
+            const skillsScore = calculateSkillsScore(employee.skills, role.skills);
+            const expScore = calculateExperienceScore(employeeExp, project.expMin, project.expMax);
+            const total = roleScore + skillsScore + expScore;
+
+            console.log("Score for " + employee.name + " on " + roleName +
+                ": Role: " + roleScore +
+                ", Skills: " + skillsScore +
+                ", Exp: " + expScore +
+                ", Total: " + total);
+
+            return total;
+        });
+    });
+
+    // Console log: header row with employee names and roles
+    const header = ['Role \\ Employee'].concat(
+        availableEmployees.map(function(emp) {
+            if (Array.isArray(emp.role)) {
+                return emp.name + " (" + emp.role[0] + ")";
+            } else {
+                return emp.name + " (" + emp.role + ")";
+            }
+        })
+    );
+    console.log(header.join('\t'));
+    // Console log: each row with role and scores
+    matrix.forEach(function(row, i) {
+        const roleName = project.roles[i].roleName || project.roles[i].role;
+        console.log([roleName].concat(row).join('\t'));
+    });
+    // Attach availableEmployees for assignment mapping
+    matrix.availableEmployees = availableEmployees;
+    return matrix;
+}
 
     // Handle form submission
     document.getElementById('projectForm').addEventListener('submit', function (e) {
@@ -156,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Minimum experience must be less than maximum experience.');
             return;
         }
-        const dueDate = document.getElementById('dueDate') ? document.getElementById('dueDate').value : null;
+        //const dueDate = document.getElementById('dueDate') ? document.getElementById('dueDate').value : null;
         const roles = [];
         document.querySelectorAll('.role-entry').forEach(entry => {
             const roleName = entry.querySelector('.roleName').value.trim().toLowerCase();
@@ -280,6 +327,7 @@ const initialProjectData = [
 // Initialize global project data if it doesn't exist
 // --- Local Storage: Load from local storage if available ---
 const localStorageKey = 'projectDetailsData';
+
 let storedProjects = localStorage.getItem(localStorageKey);
 window.projectDetailsData = window.projectDetailsData || [];
 if (storedProjects) {
