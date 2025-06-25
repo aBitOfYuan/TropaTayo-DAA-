@@ -99,7 +99,7 @@ function calculateRoleScore(employeeRole, requiredRole) {
     if (employeeRoles.includes(requiredRole.toLowerCase())) {
         return 6;
     } else {
-        return -5;
+        return 0;
     }
 }
 
@@ -132,7 +132,6 @@ function calculateExperienceScore(employeeExp, expMin, expMax) {
     if (isNaN(expMin)) {
         return 0;
     }
-
     if (employeeExp >= expMin && employeeExp <= expMax) {
         return 4;
     } else {
