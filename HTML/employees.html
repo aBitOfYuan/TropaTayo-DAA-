@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../CSS/employees-style.css" />
   <link rel="stylesheet" href="../CSS/main-style.css" />
-  <title>TropaTayo - Dashboard</title>
+  <title>TropaTayo - Employees</title>
 </head>
 <body>
   <div class="dashboard">
-    <!-- Sidebar (unchanged from first version) -->
+    <!-- Sidebar -->
     <div class="sidebar">
       <div class="logo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -99,8 +99,6 @@
                 <select class="editable-select" id="newEmployeeStatus">
                   <option value="available">Available</option>
                   <option value="busy">Busy</option>
-                  <option value="remote">Remote</option>
-                  <option value="on-leave">On Leave</option>
                 </select>
               </div>
               <div class="detail-group">
@@ -144,7 +142,7 @@
         </div>
       </div>
 
-      <!-- Success Popup (from second version - improved) -->
+      <!-- Success Popup -->
       <div id="successPopup" class="success-popup">
         <div class="popup-content">
           <span class="popup-close">&times;</span>
@@ -220,7 +218,7 @@
     });
   </script>
   
-  <!-- Keep your existing employees.js -->
+  <!-- Updated employees.js with localStorage support -->
   <script src="../JS/employees.js"></script>
 </body>
 </html>
