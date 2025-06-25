@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
         experience: 5
     }
 ];
-   // DOM elements and state variables
+ // DOM elements and state variables
     const employeeGrid = document.getElementById('employeeGrid');
     let currentEmployee = null;
     let originalEmployeeData = null;
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div class="modal-header-info">
                         <input type="text" class="editable-field modal-name" value="${employee.name}">
-                        <input type="text" class="editable-field" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
+                        <input type="text" class="editable-field" id="roleInput" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
                         <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;" min="0">
                     </div>
                 </div>
@@ -503,7 +503,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update all fields
         employeesData[employeeIndex].name = modalDetails.querySelector('.modal-name').value;
-        employeesData[employeeIndex].role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
+        
+        // Properly handle role field
+        const roleInput = document.getElementById('roleInput').value;
+        employeesData[employeeIndex].role = roleInput.split(',').map(r => r.trim());
         
         const statusSelect = modalDetails.querySelector('#statusSelect');
         employeesData[employeeIndex].status = statusSelect.options[statusSelect.selectedIndex].text;
@@ -517,7 +520,11 @@ document.addEventListener('DOMContentLoaded', function() {
         employeesData[employeeIndex].phone = inputs[4].value;
         employeesData[employeeIndex].department = inputs[5].value;
         employeesData[employeeIndex].location = inputs[6].value;
-        employeesData[employeeIndex].skills = inputs[7]?.value.split(',').map(s => s.trim());
+        
+        // Properly handle skills field
+        const skillsInput = inputs[7]?.value;
+        employeesData[employeeIndex].skills = skillsInput.split(',').map(s => s.trim());
+        
         employeesData[employeeIndex].bio = modalDetails.querySelector('textarea')?.value;
         
         currentEmployee = employeesData[employeeIndex];
@@ -535,8 +542,8 @@ document.addEventListener('DOMContentLoaded', function() {
             name: document.getElementById('newEmployeeName').value,
             img: document.getElementById('newEmployeeImage').value || "../Images/default-avatar.jpg",
             role: document.getElementById('newEmployeeRole').value.split(',').map(r => r.trim()),
-             status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
-        statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
+            status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
+            statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
             email: document.getElementById('newEmployeeEmail').value,
             phone: document.getElementById('newEmployeePhone').value,
             department: document.getElementById('newEmployeeDepartment').value,
