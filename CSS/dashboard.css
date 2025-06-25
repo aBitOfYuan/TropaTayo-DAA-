@@ -1,0 +1,57 @@
+.dashboard-stats {
+    display: flex;
+    gap: 2rem;
+    margin: 2rem 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: linear-gradient(135deg, var(--primary-light), rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--dark-border);
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    flex: 1 1 180px;
+    max-width: 240px;
+    color: var(--dark-text);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.stat-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(58, 134, 255, 0.3);
+}
+
+.stat-item h3 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-item p {
+    font-size: 1.1rem;
+    color: var(--dark-text-secondary);
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Optional: Color variants based on data type */
+#employeeCount {
+    color: var(--primary);
+}
+
+#projectCount {
+    color: var(--success);
+}
+
+#availableCount {
+    color: var(--primary);
+}
+
+#busyCount {
+    color: var(--danger);
+}

@@ -1,4 +1,4 @@
-// Make employees array global
+document.addEventListener('DOMContentLoaded', function() {
 window.employeesData = [
     {
         id: 1,
@@ -12,7 +12,7 @@ window.employeesData = [
         department: "Creative",
         location: "Makati, Metro Manila",
         skills: ["Adobe Photoshop", "Illustrator", "Canva", "Figma", "Sketch"],
-        bio: "Creative artist with a keen eye for detail. Experienced in creating promotional materials for both digital and print.",
+        bio: "Skilled graphic designer and visual artist specializing in digital and print media. Creates compelling content that engages audiences.",
         experience: 5
     },
     {
@@ -27,7 +27,7 @@ window.employeesData = [
         department: "IT",
         location: "Quezon City",
         skills: ["React", "Node.js", "MongoDB", "Express", "JavaScript", "HTML", "CSS"],
-        bio: "Tech-savvy developer passionate about building scalable web applications. Loves working on start-up projects.",
+        bio: "Versatile full-stack developer with expertise in building scalable web applications using React, Node.js, and MongoDB.",
         experience: 7
     },
     {
@@ -42,7 +42,7 @@ window.employeesData = [
         department: "Human Resources",
         location: "Pasig City",
         skills: ["Node.js", "Express", "MongoDB"],
-        bio: "HR advocate who values employee well-being and efficient onboarding. Promotes a positive work culture.",
+        bio: "Backend developer focused on building robust APIs and server-side solutions to support HR systems and workflows.",
         experience: 3
     },
     {
@@ -57,7 +57,7 @@ window.employeesData = [
         department: "Development",
         location: "Cebu City",
         skills: ["Docker", "Kubernetes", "AWS"],
-        bio: "Builds intuitive and reliable mobile apps. Believes in simple, functional user experiences.",
+        bio: "Experienced DevOps engineer skilled in containerization, orchestration, and cloud infrastructure management.",
         experience: 8
     },
     {
@@ -72,88 +72,88 @@ window.employeesData = [
         department: "Marketing",
         location: "Davao City",
         skills: ["Linux", "Networking", "Security"],
-        bio: "Driven marketer who thrives on digital trends and content performance metrics. Loves optimizing social media campaigns.",
+        bio: "System administrator ensuring secure and reliable IT infrastructure to support marketing operations.",
         experience: 6
     },
     {
         id: 6,
-        name: "Nico Alvarado",
-        img: "https://i.pravatar.cc/150?img=6",
-        role: "QA Tester",
+        name: "Sana Minatozaki",
+        img: "../Images/sana.webp",
+        role: ["Security Engineer", "Penetration Tester"],
         status: "Available",
         statusClass: "status-available",
         email: "nico.alvarado@company.ph",
         phone: "0956 678 9012",
         department: "Quality Assurance",
         location: "Mandaluyong City",
-        skills: ["TestRail", "Selenium", "Manual Testing"],
-        bio: "Detail-oriented tester ensuring bugs don't reach production. Finds joy in breaking things and fixing them.",
+        skills: ["SIEM Tools", "Firewall Configuration", "IDS/IPS", "Ethical Hacking", "Metasploit", "OWASP Top 10"],
+        bio: "Security engineer specializing in penetration testing and vulnerability assessment to protect company assets.",
         experience: 4
     },
     {
         id: 7,
-        name: "Grace Lopez",
-        img: "https://i.pravatar.cc/150?img=7",
-        role: "UI/UX Designer",
+        name: "Kim Tae-hyung",
+        img: "../Images/taeh.jpg",
+        role: ["Frontend Developer", "UI Developer"],
         status: "Busy",
         statusClass: "status-busy",
         email: "grace.lopez@company.ph",
         phone: "0908 789 0123",
         department: "Design",
         location: "Baguio City",
-        skills: ["Figma", "Wireframing", "User Testing"],
-        bio: "Creates seamless designs rooted in real user feedback. Advocates for accessible design.",
+        skills: ["React", "TypeScript", "Redux", "Figma", "Storybook", "CSS-in-JS"],
+        bio: "Frontend developer focused on building user-friendly interfaces with React and TypeScript, emphasizing accessibility.",
         experience: 5
     },
     {
         id: 8,
-        name: "Paolo Enriquez",
-        img: "https://i.pravatar.cc/150?img=8",
-        role: "Network Administrator",
+        name: "Jennie Kim",
+        img: "../Images/jennie.jpg",
+        role: ["Cloud Architect", "DevOps Engineer"],
         status: "Available",
         statusClass: "status-available",
         email: "paolo.enriquez@company.ph",
         phone: "0999 890 1234",
         department: "IT",
         location: "Taguig City",
-        skills: ["Cisco", "Firewalls", "LAN/WAN"],
-        bio: "Keeps networks stable and secure. Loves tinkering with routers and optimizing traffic flow.",
+        skills: ["AWS Solutions", "Terraform", "Cloud Security", "Kubernetes", "CI/CD Pipelines", "Infrastructure as Code"],
+        bio: "Cloud architect and DevOps engineer designing secure, scalable cloud infrastructure with automation and CI/CD pipelines.",
         experience: 9
     },
     {
         id: 9,
-        name: "Janelle Cruz",
-        img: "https://i.pravatar.cc/150?img=9",
-        role: "Project Manager",
+        name: "Mary Loi Ricalde",
+        img: "../Images/maloi.jpg",
+        role: ["Technical Project Manager", "Scrum Master"],
         status: "Busy",
         statusClass: "status-busy",
         email: "janelle.cruz@company.ph",
         phone: "0910 901 2345",
         department: "Operations",
         location: "Iloilo City",
-        skills: ["Agile", "Scrum", "Risk Management"],
-        bio: "Hands-on project lead who ensures deadlines are met and teams collaborate effectively.",
+        skills: ["Agile Methodologies", "Risk Management", "JIRA", "Sprint Planning", "Retrospectives", "Team Coaching"],
+        bio: "Technical project manager and Scrum Master driving agile teams to deliver projects on time and within scope.",
         experience: 10
     },
     {
         id: 10,
-        name: "Miguel Ramos",
-        img: "https://i.pravatar.cc/150?img=10",
-        role: "DevOps Engineer",
+        name: "Jang Wonyoung",
+        img: "../Images/jang.jpg",
+        role: ["Backend Developer", "API Specialist"],
         status: "Available",
         statusClass: "status-available",
         email: "miguel.ramos@company.ph",
         phone: "0921 012 3456",
         department: "Engineering",
         location: "Cavite",
-        skills: ["Docker", "Kubernetes", "CI/CD"],
-        bio: "Passionate about automation and system reliability. Ensures the pipeline runs like clockwork.",
+        skills: ["Node.js", "Python", "Microservices", "RESTful APIs", "GraphQL", "Swagger"],
+        bio: "Backend developer specializing in API design and microservices architecture using Node.js and Python.",
         experience: 7
     },
     {
         id: 11,
-        name: "Elaine Torres",
-        img: "https://i.pravatar.cc/150?img=11",
+        name: "Coco Martin",
+        img: "../Images/coco.jpg",
         role: "Content Writer",
         status: "Available",
         statusClass: "status-available",
@@ -162,29 +162,29 @@ window.employeesData = [
         department: "Communications",
         location: "Batangas",
         skills: ["Copywriting", "Blogging", "SEO"],
-        bio: "Crafts compelling stories that align with brand identity. Loves writing content that educates and engages.",
+        bio: "Content writer crafting engaging and SEO-optimized stories that align with brand messaging.",
         experience: 4
     },
     {
         id: 12,
-        name: "Rafael Dimaculangan",
-        img: "https://i.pravatar.cc/150?img=12",
-        role: "Systems Analyst",
+        name: "Kween Yasmin",
+        img: "../Images/kween.jpg",
+        role: ["Data Engineer", "ETL Developer"],
         status: "Busy",
         statusClass: "status-busy",
         email: "rafael.dimaculangan@company.ph",
         phone: "0912 234 5678",
         department: "IT",
         location: "San Fernando, Pampanga",
-        skills: ["UML", "Data Modeling", "SQL"],
-        bio: "Bridges business needs and tech solutions. Enjoys turning problems into process improvements.",
+        skills:  ["Apache Spark", "Data Pipelines", "Big Data", "Informatica", "Talend", "Data Warehousing"],
+        bio: "Data engineer skilled in building and optimizing ETL pipelines and managing big data solutions.",
         experience: 6
     },
     {
         id: 13,
-        name: "Patricia Cruzado",
-        img: "https://i.pravatar.cc/150?img=13",
-        role: "Data Analyst",
+        name: "Im Na-yeon",
+        img: "../Images/nayeon.jpg",
+        role: ["Data Analyst", "Business Intelligence Analyst", "Data Scientist"],
         status: "Available",
         statusClass: "status-available",
         email: "patricia.cruzado@company.ph",
@@ -192,133 +192,145 @@ window.employeesData = [
         department: "Analytics",
         location: "General Santos City",
         skills: ["Excel", "Power BI", "Python"],
-        bio: "Passionate about uncovering insights from data. Enjoys working with visualization tools to make numbers talk.",
+        bio: "Data analyst passionate about uncovering insights and creating impactful visualizations using Power BI and Python.",
         experience: 5
     },
     {
         id: 14,
-        name: "Leo Gutierrez",
-        img: "https://i.pravatar.cc/150?img=14",
-        role: "Customer Support Lead",
+        name: "Naruto Uzumaki",
+        img: "../Images/naruto.jpg",
+        role: ["Machine Learning Engineer", "Data Scientist"],
         status: "Available",
         statusClass: "status-available",
         email: "leo.gutierrez@company.ph",
         phone: "0906 456 7890",
         department: "Support",
         location: "Cagayan de Oro",
-        skills: ["Zendesk", "CRM", "Conflict Resolution"],
-        bio: "Ensures customer concerns are resolved with empathy and efficiency. Values the customer's voice.",
+        skills: ["TensorFlow", "Model Deployment", "MLOps", "Python", "Pandas", "Statistical Modeling"],
+        bio: "Machine learning engineer focused on developing and deploying models to solve real-world problems.",
         experience: 8
     },
     {
         id: 15,
-        name: "Tricia Magpantay",
-        img: "https://i.pravatar.cc/150?img=15",
-        role: "E-commerce Manager",
+        name: "Monkey D. Luffy",
+        img: "../Images/Monkey_D._Luffy.webp",
+        role: ["Product Manager", "Business Analyst"],
         status: "Busy",
         statusClass: "status-busy",
         email: "tricia.magpantay@company.ph",
         phone: "0914 567 8901",
         department: "Sales",
         location: "Zamboanga City",
-        skills: ["Shopify", "Inventory Management", "Conversion Optimization"],
-        bio: "E-commerce guru with a track record of increasing online sales. Focused on improving user shopping experience.",
+        skills: ["Roadmapping", "User Stories", "Prioritization", "Requirements Gathering", "Process Mapping", "Use Cases"],
+        bio: "Product manager and business analyst driving product strategy and aligning business goals with user needs.",
         experience: 7
     },
     {
         id: 16,
-        name: "Jerome Aquino",
-        img: "https://i.pravatar.cc/150?img=16",
-        role: "IT Support Specialist",
+        name: "Ichigo Kurosaki",
+        img: "../Images/ichigo.jpg",
+        role:  ["Full Stack Developer", "Mobile Developer"],
         status: "Available",
         statusClass: "status-available",
         email: "jerome.aquino@company.ph",
         phone: "0920 678 9012",
         department: "IT Support",
         location: "Antipolo",
-        skills: ["Troubleshooting", "Hardware Repair", "Remote Desktop"],
-        bio: "Friendly tech support go-to. Solves IT issues quickly and explains solutions in simple terms.",
+        skills: ["React", "Node.js", "PostgreSQL", "React Native", "Flutter", "Mobile UI"],
+        bio: "Full stack and mobile developer building responsive apps with React Native and Flutter for seamless user experiences.",
         experience: 4
     },
     {
         id: 17,
-        name: "Diana Francisco",
-        img: "https://i.pravatar.cc/150?img=17",
-        role: "Training Coordinator",
+        name: "Kris Bernal",
+        img: "../Images/kris.jpg",
+        role: ["QA Automation Engineer", "Test Architect"],
         status: "Busy",
         statusClass: "status-busy",
         email: "diana.francisco@company.ph",
         phone: "0931 789 0123",
         department: "L&D",
         location: "Laguna",
-        skills: ["Learning Management Systems", "Facilitation", "Assessment"],
-        bio: "Coordinates staff development programs and workshops. Believes in lifelong learning and continuous improvement.",
+        skills: ["Selenium", "Cypress", "TestNG", "Test Strategy", "Framework Design", "Performance Testing"],
+        bio: "QA automation engineer designing test frameworks and strategies to ensure software quality and performance.",
         experience: 6
     },
     {
         id: 18,
-        name: "Aaron Salazar",
-        img: "https://i.pravatar.cc/150?img=18",
-        role: "Legal Officer",
+        name: "Ryzza Mae Dizon",
+        img: "../Images/ryzza.jpg",
+        role: ["Database Administrator", "Data Architect"],
         status: "Available",
         statusClass: "status-available",
         email: "aaron.salazar@company.ph",
         phone: "0909 890 1234",
         department: "Legal",
         location: "San Juan City",
-        skills: ["Contract Review", "Corporate Law", "Compliance"],
-        bio: "Ensures all company practices follow Philippine laws. Passionate about ethical business practices.",
+        skills: ["SQL Server", "Query Optimization", "Backup Recovery", "Database Design", "NoSQL", "Data Modeling"],
+        bio: "Database administrator and data architect ensuring efficient data management and compliance with legal standards.",
         experience: 12
     },
     {
         id: 19,
-        name: "Bea Pascual",
-        img: "https://i.pravatar.cc/150?img=19",
-        role: "Finance Analyst",
+        name: "Taylor Swift",
+        img: "../Images/taylor.webp",
+        role: ["Blockchain Developer", "Smart Contract Engineer"],
         status: "Busy",
         statusClass: "status-busy",
         email: "bea.pascual@company.ph",
         phone: "0916 901 2345",
         department: "Finance",
         location: "Muntinlupa City",
-        skills: ["Financial Reporting", "Budgeting", "QuickBooks"],
-        bio: "Keeps an eye on the bottom line. Works closely with departments to ensure sound budgeting and forecasting.",
+        skills: ["Solidity", "Ethereum", "Web3.js", "Security Audits", "DeFi Protocols", "Token Standards"],
+        bio: "Blockchain developer specializing in smart contracts and decentralized finance protocols.",
         experience: 9
     },
     {
         id: 20,
-        name: "Erwin Navarro",
-        img: "https://i.pravatar.cc/150?img=20",
-        role: "Social Media Manager",
+        name: "Lebron James",
+        img: "../Images/lebron.jpg",
+        role: ["Site Reliability Engineer", "Performance Engineer"],
         status: "Available",
         statusClass: "status-available",
         email: "erwin.navarro@company.ph",
         phone: "0948 012 3456",
         department: "Marketing",
         location: "Las Piñas City",
-        skills: ["Content Creation", "Analytics", "Engagement Strategy"],
-        bio: "Grows online presence and brand engagement. Loves turning likes into leads.",
+        skills: ["Monitoring", "Incident Response", "SLIs/SLOs", "Load Testing", "Profiling", "Optimization"],
+        bio: "Site reliability engineer focused on system monitoring, performance optimization, and incident response.",
         experience: 5
     }
 ];
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Use the global array
-    const employees = window.employeesData;
-
-    // Get the container where employee cards will be inserted
+    // DOM elements and state variables
     const employeeGrid = document.getElementById('employeeGrid');
+    let currentEmployee = null; // Currently viewed/edited employee
+    let originalEmployeeData = null; // Backup of employee data before editing
 
-    // Function to generate employee cards
-    function generateEmployeeCards() {
-        employeeGrid.innerHTML = ''; // Clear existing content
+    // Show success notification
+    function showSuccessMessage(message = 'Successfully saved!') {
+        const notification = document.getElementById('successNotification');
+        if (!notification) return;
         
-        employees.forEach(employee => {
+        notification.querySelector('span').nextSibling.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+    // Generate all employee cards
+    function generateEmployeeCards() {
+        if (!employeeGrid) return;
+        
+        employeeGrid.innerHTML = '';
+        
+        employeesData.forEach(employee => {
             const card = document.createElement('div');
             card.className = 'employee-card';
             card.setAttribute('data-id', employee.id);
 
-            // Show only the first role in the card
+            // Show only first role in card
             let firstRole = Array.isArray(employee.role) ? employee.role[0] : employee.role;
             let roleHTML = `<span class="role-badge">${firstRole}</span>`;
 
@@ -340,99 +352,208 @@ document.addEventListener('DOMContentLoaded', function() {
             employeeGrid.appendChild(card);
         });
 
-        // Add event listeners to the view buttons
+        // Add click handlers to view buttons
         document.querySelectorAll('.view-button').forEach(button => {
             button.addEventListener('click', function() {
                 const card = this.closest('.employee-card');
                 const employeeId = parseInt(card.getAttribute('data-id'));
-                const employee = employees.find(emp => emp.id === employeeId);
-                
-                if (employee) {
-                    showEmployeeModal(employee);
-                }
+                const employee = employeesData.find(emp => emp.id === employeeId);
+                if (employee) showEmployeeModal(employee);
             });
         });
     }
 
-    // Function to show employee details in modal
-    function showEmployeeModal(employee) {
+    // Show employee modal in view or edit mode
+    function showEmployeeModal(employee, isEditMode = false) {
+        currentEmployee = employee;
+        originalEmployeeData = JSON.parse(JSON.stringify(employee));
+        
         const modal = document.getElementById('employeeModal');
         const modalDetails = document.getElementById('modalEmployeeDetails');
+        if (!modal || !modalDetails) return;
 
-        // Show all roles as badges in the modal
-        let rolesHTML = '';
-        if (Array.isArray(employee.role)) {
-            rolesHTML = employee.role.map(role => `<span class="role-badge">${role}</span>`).join(' ');
+        // Generate roles HTML
+        let rolesHTML = Array.isArray(employee.role) ? 
+            employee.role.map(role => `<span class="role-badge">${role}</span>`).join(' ') : 
+            `<span class="role-badge">${employee.role}</span>`;
+
+        // Generate skills HTML
+        const skillsHTML = employee.skills?.map(skill => `<span class="skill-badge">${skill}</span>`).join('') || '';
+
+        if (isEditMode) {
+            // Edit mode content with form fields
+            modalDetails.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-avatar-container">
+                        <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+                        <select class="editable-select" id="statusSelect">
+                            <option value="available" ${employee.status === 'Available' ? 'selected' : ''}>Available</option>
+                            <option value="busy" ${employee.status === 'Busy' ? 'selected' : ''}>Busy</option>
+                            <option value="remote" ${employee.status === 'Remote' ? 'selected' : ''}>Remote</option>
+                            <option value="on-leave" ${employee.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
+                        </select>
+                    </div>
+                    <div class="modal-header-info">
+                        <input type="text" class="editable-field modal-name" value="${employee.name}">
+                        <input type="text" class="editable-field" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
+                        <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;">
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <h4>Email</h4>
+                        <input type="email" class="editable-field" value="${employee.email}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Phone</h4>
+                        <input type="tel" class="editable-field" value="${employee.phone}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Department</h4>
+                        <input type="text" class="editable-field" value="${employee.department}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Location</h4>
+                        <input type="text" class="editable-field" value="${employee.location}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Skills</h4>
+                        <input type="text" class="editable-field" value="${Array.isArray(employee.skills) ? employee.skills.join(', ') : employee.skills}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>About</h4>
+                        <textarea class="editable-field" style="width:100%; min-height:100px;">${employee.bio}</textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-button cancel-button">Cancel</button>
+                    <button class="modal-button save-button">Save Changes</button>
+                </div>
+            `;
         } else {
-            rolesHTML = `<span class="role-badge">${employee.role}</span>`;
+            // View mode content (read-only)
+            modalDetails.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-avatar-container">
+                        <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+                        <span class="status ${employee.statusClass}">${employee.status}</span>
+                    </div>
+                    <div class="modal-header-info">
+                        <h2 class="modal-name">${employee.name}</h2>
+                        <div class="modal-roles">${rolesHTML}</div>
+                        <div class="modal-experience">
+                            <span class="experience-badge">${employee.experience} years of experience</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <h4>Email</h4>
+                        <p>${employee.email}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Phone</h4>
+                        <p>${employee.phone}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Department</h4>
+                        <p>${employee.department}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Location</h4>
+                        <p>${employee.location}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Skills</h4>
+                        <div class="skills-container">${skillsHTML}</div>
+                    </div>
+                    <div class="detail-group">
+                        <h4>About</h4>
+                        <p>${employee.bio}</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-button edit-button">Edit</button>
+                </div>
+            `;
         }
 
-        // Generate skills badges
-        const skillsHTML = employee.skills 
-            ? employee.skills.map(skill => `<span class="skill-badge">${skill}</span>`).join('')
-            : '';
+        // Add event listeners to dynamic buttons
+        modalDetails.querySelector('.edit-button')?.addEventListener('click', enableEditMode);
+        modalDetails.querySelector('.cancel-button')?.addEventListener('click', disableEditMode);
+        modalDetails.querySelector('.save-button')?.addEventListener('click', saveEmployeeChanges);
 
-        modalDetails.innerHTML = `
-            <div class="modal-header">
-                <div class="modal-avatar-container">
-                    <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
-                    <span class="modal-status ${employee.statusClass}">${employee.status}</span>
-                </div>
-                <div class="modal-header-info">
-                    <h2 class="modal-name">${employee.name}</h2>
-                    <div class="modal-role">
-                        ${rolesHTML}
-                    </div>
-                    <div class="modal-experience">
-                        <span class="experience-badge">${employee.experience}+ years experience</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-details">
-                <div class="detail-group">
-                    <h4>Email</h4>
-                    <p>${employee.email}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Phone</h4>
-                    <p>${employee.phone}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Department</h4>
-                    <p>${employee.department}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Location</h4>
-                    <p>${employee.location}</p>
-                </div>
-                ${skillsHTML ? `
-                <div class="detail-group" style="grid-column: span 2;">
-                    <h4>Skills</h4>
-                    <div class="skills-list">
-                        ${skillsHTML}
-                    </div>
-                </div>
-                ` : ''}
-                <div class="detail-group" style="grid-column: span 2;">
-                    <h4>About</h4>
-                    <p>${employee.bio}</p>
-                </div>
-            </div>
-        `;
-        
         modal.style.display = "block";
+    }
+
+    // Switch to edit mode
+    window.enableEditMode = function() {
+        showEmployeeModal(currentEmployee, true);
+    };
+
+    // Cancel editing and return to view mode
+    window.disableEditMode = function() {
+        showEmployeeModal(originalEmployeeData, false);
+    };
+
+    // Save updated employee data
+    window.saveEmployeeChanges = function() {
+        const modalDetails = document.getElementById('modalEmployeeDetails');
+        if (!modalDetails) return;
+        
+        // Get all updated values from form
+        const inputs = modalDetails.querySelectorAll('.editable-field');
+        currentEmployee.name = modalDetails.querySelector('.modal-name').value;
+        currentEmployee.role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
+        
+        // Update status
+        const statusSelect = modalDetails.querySelector('#statusSelect');
+        currentEmployee.status = statusSelect.options[statusSelect.selectedIndex].text;
+        currentEmployee.statusClass = `status-${statusSelect.value}`;
+        
+        // Update other fields
+        currentEmployee.experience = parseInt(modalDetails.querySelector('.modal-header-info input:nth-of-type(2)').value);
+        currentEmployee.email = inputs[3].value;
+        currentEmployee.phone = inputs[4].value;
+        currentEmployee.department = inputs[5].value;
+        currentEmployee.location = inputs[6].value;
+        currentEmployee.skills = inputs[7]?.value.split(',').map(s => s.trim());
+        currentEmployee.bio = modalDetails.querySelector('textarea')?.value;
+        
+        // Update UI and show success
+        updateEmployeeCard(currentEmployee);
+        showEmployeeModal(currentEmployee, false);
+        showSuccessMessage('Employee updated successfully!');
+    };
+
+    // Update employee card in grid
+    function updateEmployeeCard(employee) {
+        const card = document.querySelector(`.employee-card[data-id="${employee.id}"]`);
+        if (!card) return;
+        
+        card.querySelector('.employee-name').textContent = employee.name;
+        card.querySelector('.employee-role').innerHTML = `<span class="role-badge">${
+            Array.isArray(employee.role) ? employee.role[0] : employee.role
+        }</span>`;
+        
+        // Update status display
+        const statusElement = card.querySelector('.status');
+        statusElement.textContent = employee.status;
+        statusElement.className = 'status ' + employee.statusClass;
+        
+        card.querySelector('.experience-badge').textContent = `${employee.experience} years of experience`;
     }
 
     // Initialize the page
     generateEmployeeCards();
 
-    // Modal close functionality
-    document.querySelector('.close').addEventListener('click', function() {
+    // Close modal when clicking X or outside
+    document.querySelector('.close')?.addEventListener('click', () => {
         document.getElementById('employeeModal').style.display = "none";
     });
     
-    window.addEventListener('click', function(event) {
-        if (event.target == document.getElementById('employeeModal')) {
+    window.addEventListener('click', (event) => {
+        if (event.target === document.getElementById('employeeModal')) {
             document.getElementById('employeeModal').style.display = "none";
         }
     });

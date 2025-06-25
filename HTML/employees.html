@@ -1,90 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/employees-style.css">
-    <link rel="stylesheet" href="../CSS/main-style.css">
-    <title>TropaTayo - Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../CSS/employees-style.css" />
+  <link rel="stylesheet" href="../CSS/main-style.css" />
+  <title>TropaTayo - Dashboard</title>
 </head>
 <body>
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
-                    <path d="M19 21C19 17.134 15.866 14 12 14C8.13401 14 5 17.134 5 21M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>Tropa</span>Tayo
-            </div>
-            
-            <nav class="nav-menu">
-                <a href="dashboard.html" class="nav-item">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    Dashboard
-                </a>
-                <a href="projects.html" class="nav-item">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                        <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                    </svg>
-                    Projects
-                </a>
-                <a href="employees.html" class="nav-item active" >
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                    Employees
-                </a>
-                <a href="login.html" class="nav-item signout-nav">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    Sign Out
-                </a>
-            </nav>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
-                <div class="user-avatar">
-                    <img src="../Images/nek.jpg" alt="User Avatar" />
-                </div>
-                <div class="welcome">
-                    <h1>Welcome back, Admin!</h1>
-                    <p>Here's what's happening with your projects today</p>
-                </div>
-            </div>
-
-            <div class="tabs">
-                <div class="tab" onclick="window.location.href = 'projects.html'">Ongoing Projects</div>
-                <div class="tab active" onclick="window.location.href = 'employees.html'">Employees</div>
-            </div>
-
-            <!-- Modal Structure -->
-            <div id="employeeModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div id="modalEmployeeDetails"></div>
-                </div>
-            </div>
-
-            <div class="content-grid" id="employeeGrid"></div>
-            
-            <div class="footer">
-                © 2025 TropaTayo. Better Teams, Brighter Future. All rights reserved.
-            </div>
-        </div>
+  <div class="dashboard">
+    <!-- Sidebar (unchanged from first version) -->
+    <div class="sidebar">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <path d="M19 21C19 17.134 15.866 14 12 14C8.13401 14 5 17.134 5 21M12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7C16 9.20914 14.2091 11 12 11Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>Tropa</span>Tayo
+      </div>
+      <nav class="nav-menu">
+        <a href="dashboard.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Dashboard
+        </a>
+        <a href="projects.html" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+            <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+          </svg>
+          Projects
+        </a>
+        <a href="employees.html" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Employees
+        </a>
+        <a href="login.html" class="nav-item signout-nav">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Sign Out
+        </a>
+      </nav>
     </div>
-<script src="../JS/employees.js"></script>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <div class="user-avatar">
+          <img src="../Images/nek.jpg" alt="User Avatar" />
+        </div>
+        <div class="welcome">
+          <h1>Welcome back, Admin!</h1>
+          <p>Here's what's happening with your projects today</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab" onclick="window.location.href = 'projects.html'">Ongoing Projects</div>
+        <div class="tab active" onclick="window.location.href = 'employees.html'">Employees</div>
+      </div>
+
+      <!-- View/Edit Employee Modal -->
+      <div id="employeeModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <div id="modalEmployeeDetails"></div>
+        </div>
+      </div>
+
+      <!-- Add Employee Modal -->
+      <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeAddModal()">&times;</span>
+          <h2 style="margin-bottom: 1.5rem; color: var(--white);">Add New Employee</h2>
+          <div id="addEmployeeForm">
+            <div class="modal-details">
+              <div class="detail-group">
+                <h4>Name</h4>
+                <input type="text" class="editable-field" id="newEmployeeName" placeholder="Full Name">
+              </div>
+              <div class="detail-group">
+                <h4>Role</h4>
+                <input type="text" class="editable-field" id="newEmployeeRole" placeholder="Comma-separated roles">
+              </div>
+              <div class="detail-group">
+                <h4>Status</h4>
+                <select class="editable-select" id="newEmployeeStatus">
+                  <option value="available">Available</option>
+                  <option value="busy">Busy</option>
+                  <option value="remote">Remote</option>
+                  <option value="on-leave">On Leave</option>
+                </select>
+              </div>
+              <div class="detail-group">
+                <h4>Experience (years)</h4>
+                <input type="number" class="editable-field" id="newEmployeeExperience" placeholder="Years of experience">
+              </div>
+              <div class="detail-group">
+                <h4>Email</h4>
+                <input type="email" class="editable-field" id="newEmployeeEmail" placeholder="Email address">
+              </div>
+              <div class="detail-group">
+                <h4>Phone</h4>
+                <input type="tel" class="editable-field" id="newEmployeePhone" placeholder="Phone number">
+              </div>
+              <div class="detail-group">
+                <h4>Department</h4>
+                <input type="text" class="editable-field" id="newEmployeeDepartment" placeholder="Department">
+              </div>
+              <div class="detail-group">
+                <h4>Location</h4>
+                <input type="text" class="editable-field" id="newEmployeeLocation" placeholder="Location">
+              </div>
+              <div class="detail-group" style="grid-column: span 2;">
+                <h4>Skills</h4>
+                <input type="text" class="editable-field" id="newEmployeeSkills" placeholder="Comma-separated skills">
+              </div>
+              <div class="detail-group" style="grid-column: span 2;">
+                <h4>About</h4>
+                <textarea class="editable-textarea" id="newEmployeeBio" placeholder="Employee bio"></textarea>
+              </div>
+              <div class="detail-group" style="grid-column: span 2;">
+                <h4>Profile Image URL</h4>
+                <input type="text" class="editable-field" id="newEmployeeImage" placeholder="Image URL (or leave blank for default)">
+              </div>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="modal-button cancel-button" onclick="closeAddModal()">Cancel</button>
+            <button class="modal-button save-button" onclick="addNewEmployee()">Add Employee</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Popup (from second version - improved) -->
+      <div id="successPopup" class="success-popup">
+        <div class="popup-content">
+          <span class="popup-close">&times;</span>
+          <div class="popup-message">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Successfully saved!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="content-grid" id="employeeGrid">
+        <!-- Employee cards will be dynamically added here -->
+      </div>
+
+      <!-- Floating Add Employee Button -->
+      <button class="fab-add" onclick="openAddEmployeeForm()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="footer">
+        © 2025 TropaTayo. Better Teams, Brighter Future. All rights reserved.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Keep the simple modal functions from first version
+    function openAddEmployeeForm() {
+      document.getElementById('addEmployeeModal').style.display = 'block';
+      // Clear any previous inputs
+      document.querySelectorAll('#addEmployeeForm input, #addEmployeeForm textarea').forEach(input => {
+        input.value = '';
+      });
+    }
+
+    function closeAddModal() {
+      document.getElementById('addEmployeeModal').style.display = 'none';
+    }
+
+    function closeModal() {
+      document.getElementById("employeeModal").style.display = "none";
+    }
+
+    // Add the improved success popup from second version
+    function showSuccessMessage(message = 'Successfully saved!') {
+      const popup = document.getElementById('successPopup');
+      const messageElement = popup.querySelector('.popup-message span');
+      
+      messageElement.textContent = message;
+      popup.classList.add('show');
+      
+      // Auto-close after 3 seconds
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 3000);
+    }
+
+    // Close button functionality for success popup
+    document.querySelector('.popup-close')?.addEventListener('click', () => {
+      document.getElementById('successPopup').classList.remove('show');
+    });
+
+    // Add event listeners for modal buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('editEmployeeBtn')?.addEventListener('click', enableEditMode);
+      document.getElementById('cancelEditBtn')?.addEventListener('click', disableEditMode);
+      document.getElementById('saveEmployeeBtn')?.addEventListener('click', saveEmployeeChanges);
+    });
+  </script>
+  
+  <!-- Keep your existing employees.js -->
+  <script src="../JS/employees.js"></script>
 </body>
 </html>
