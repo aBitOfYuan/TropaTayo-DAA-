@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="dashboard">
-    <!-- Sidebar -->
+    <!-- Sidebar (unchanged from first version) -->
     <div class="sidebar">
       <div class="logo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -76,11 +76,6 @@
         <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
           <div id="modalEmployeeDetails"></div>
-          <div class="modal-actions">
-            <button class="modal-button edit-button" id="editEmployeeBtn">Edit</button>
-            <button class="modal-button save-button" id="saveEmployeeBtn" style="display:none;">Save Changes</button>
-            <button class="modal-button cancel-button" id="cancelEditBtn" style="display:none;">Cancel</button>
-          </div>
         </div>
       </div>
 
@@ -149,9 +144,17 @@
         </div>
       </div>
 
-      <!-- Success Notification -->
-      <div id="successNotification" class="notification">
-        <span>✓</span> Successfully saved!
+      <!-- Success Popup (from second version - improved) -->
+      <div id="successPopup" class="success-popup">
+        <div class="popup-content">
+          <span class="popup-close">&times;</span>
+          <div class="popup-message">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Successfully saved!</span>
+          </div>
+        </div>
       </div>
 
       <!-- Cards Grid -->
@@ -173,6 +176,7 @@
   </div>
 
   <script>
+    // Keep the simple modal functions from first version
     function openAddEmployeeForm() {
       document.getElementById('addEmployeeModal').style.display = 'block';
       // Clear any previous inputs
@@ -188,7 +192,35 @@
     function closeModal() {
       document.getElementById("employeeModal").style.display = "none";
     }
+
+    // Add the improved success popup from second version
+    function showSuccessMessage(message = 'Successfully saved!') {
+      const popup = document.getElementById('successPopup');
+      const messageElement = popup.querySelector('.popup-message span');
+      
+      messageElement.textContent = message;
+      popup.classList.add('show');
+      
+      // Auto-close after 3 seconds
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 3000);
+    }
+
+    // Close button functionality for success popup
+    document.querySelector('.popup-close')?.addEventListener('click', () => {
+      document.getElementById('successPopup').classList.remove('show');
+    });
+
+    // Add event listeners for modal buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('editEmployeeBtn')?.addEventListener('click', enableEditMode);
+      document.getElementById('cancelEditBtn')?.addEventListener('click', disableEditMode);
+      document.getElementById('saveEmployeeBtn')?.addEventListener('click', saveEmployeeChanges);
+    });
   </script>
+  
+  <!-- Keep your existing employees.js -->
   <script src="../JS/employees.js"></script>
 </body>
 </html>

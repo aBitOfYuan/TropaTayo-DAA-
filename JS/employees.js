@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function() {
 window.employeesData = [
     {
         id: 1,
@@ -300,337 +301,260 @@ window.employeesData = [
         experience: 5
     }
 ];
+    // DOM elements and state variables
+    const employeeGrid = document.getElementById('employeeGrid');
+    let currentEmployee = null; // Currently viewed/edited employee
+    let originalEmployeeData = null; // Backup of employee data before editing
 
-// Get the container where employee cards will be inserted
-const employeeGrid = document.getElementById('employeeGrid');
-let currentEmployee = null;
-let originalEmployeeData = null;
-
-// Success notification function
-function showSuccessMessage(message = 'Successfully saved!') {
-    const notification = document.getElementById('successNotification');
-    notification.querySelector('span').nextSibling.textContent = message;
-    notification.classList.add('show');
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
-}
-
-// Function to generate employee cards
-function generateEmployeeCards() {
-    employeeGrid.innerHTML = ''; // Clear existing content
-    
-    employeesData.forEach(employee => {
-        const card = document.createElement('div');
-        card.className = 'employee-card';
-        card.setAttribute('data-id', employee.id);
-
-        // Show only the first role in the card
-        let firstRole = Array.isArray(employee.role) ? employee.role[0] : employee.role;
-        let roleHTML = `<span class="role-badge">${firstRole}</span>`;
-
-        card.innerHTML = `
-            <div class="employee-avatar-container">
-                <img src="${employee.img}" alt="${employee.name}" class="employee-avatar">
-                <span class="status ${employee.statusClass}">${employee.status}</span>
-            </div>
-            <div class="divider"></div>
-            <div class="employee-info">
-                <div class="employee-name">${employee.name}</div>
-                <div class="employee-role">${roleHTML}</div>
-                <div class="employee-experience">
-                    <span class="experience-badge">${employee.experience} years of experience</span>
-                </div>
-                <button class="view-button">View Details</button>
-            </div>
-        `;
-        employeeGrid.appendChild(card);
-    });
-
-    // Add event listeners to the view buttons
-    document.querySelectorAll('.view-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const card = this.closest('.employee-card');
-            const employeeId = parseInt(card.getAttribute('data-id'));
-            const employee = employeesData.find(emp => emp.id === employeeId);
-            
-            if (employee) {
-                showEmployeeModal(employee);
-            }
-        });
-    });
-}
-
-// Function to show employee details in modal
-function showEmployeeModal(employee, isEditMode = false) {
-    currentEmployee = employee;
-    originalEmployeeData = JSON.parse(JSON.stringify(employee)); // Deep copy
-    
-    const modal = document.getElementById('employeeModal');
-    const modalDetails = document.getElementById('modalEmployeeDetails');
-
-    // Show all roles as badges in the modal
-    let rolesHTML = '';
-    if (Array.isArray(employee.role)) {
-        rolesHTML = employee.role.map(role => `<span class="role-badge">${role}</span>`).join(' ');
-    } else {
-        rolesHTML = `<span class="role-badge">${employee.role}</span>`;
+    // Show success notification
+    function showSuccessMessage(message = 'Successfully saved!') {
+        const notification = document.getElementById('successNotification');
+        if (!notification) return;
+        
+        notification.querySelector('span').nextSibling.textContent = message;
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
     }
 
-    // Generate skills badges
-    const skillsHTML = employee.skills 
-        ? employee.skills.map(skill => `<span class="skill-badge">${skill}</span>`).join('')
-        : '';
+    // Generate all employee cards
+    function generateEmployeeCards() {
+        if (!employeeGrid) return;
+        
+        employeeGrid.innerHTML = '';
+        
+        employeesData.forEach(employee => {
+            const card = document.createElement('div');
+            card.className = 'employee-card';
+            card.setAttribute('data-id', employee.id);
 
-    if (isEditMode) {
-        // Edit mode - show editable fields
-        modalDetails.innerHTML = `
-            <div class="modal-header">
-                <div class="modal-avatar-container">
-                    <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
-                    <select class="editable-select" id="statusSelect">
-                        <option value="available" ${employee.status === 'Available' ? 'selected' : ''}>Available</option>
-                        <option value="busy" ${employee.status === 'Busy' ? 'selected' : ''}>Busy</option>
-                        <option value="remote" ${employee.status === 'Remote' ? 'selected' : ''}>Remote</option>
-                        <option value="on-leave" ${employee.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
-                    </select>
-                </div>
-                <div class="modal-header-info">
-                    <input type="text" class="editable-field modal-name" value="${employee.name}">
-                    <input type="text" class="editable-field" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
-                    <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;">
-                </div>
-            </div>
-            <div class="modal-details">
-                <div class="detail-group">
-                    <h4>Email</h4>
-                    <input type="text" class="editable-field" value="${employee.email}">
-                </div>
-                <div class="detail-group">
-                    <h4>Phone</h4>
-                    <input type="text" class="editable-field" value="${employee.phone}">
-                </div>
-                <div class="detail-group">
-                    <h4>Department</h4>
-                    <input type="text" class="editable-field" value="${employee.department}">
-                </div>
-                <div class="detail-group">
-                    <h4>Location</h4>
-                    <input type="text" class="editable-field" value="${employee.location}">
-                </div>
-                <div class="detail-group">
-                    <h4>Skills</h4>
-                    <input type="text" class="editable-field" value="${Array.isArray(employee.skills) ? employee.skills.join(', ') : employee.skills}">
-                </div>
-                <div class="detail-group">
-                    <h4>About</h4>
-                    <textarea class="editable-field" style="width:100%; min-height:100px;">${employee.bio}</textarea>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="cancel-button" onclick="disableEditMode()">Cancel</button>
-                <button class="save-button" onclick="saveEmployeeChanges()">Save Changes</button>
-            </div>
-        `;
-    } else {
-        // View mode - show read-only details
-        modalDetails.innerHTML = `
-            <div class="modal-header">
-                <div class="modal-avatar-container">
-                    <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+            // Show only first role in card
+            let firstRole = Array.isArray(employee.role) ? employee.role[0] : employee.role;
+            let roleHTML = `<span class="role-badge">${firstRole}</span>`;
+
+            card.innerHTML = `
+                <div class="employee-avatar-container">
+                    <img src="${employee.img}" alt="${employee.name}" class="employee-avatar">
                     <span class="status ${employee.statusClass}">${employee.status}</span>
                 </div>
-                <div class="modal-header-info">
-                    <h2 class="modal-name">${employee.name}</h2>
-                    <div class="modal-roles">${rolesHTML}</div>
-                    <div class="modal-experience">
+                <div class="divider"></div>
+                <div class="employee-info">
+                    <div class="employee-name">${employee.name}</div>
+                    <div class="employee-role">${roleHTML}</div>
+                    <div class="employee-experience">
                         <span class="experience-badge">${employee.experience} years of experience</span>
                     </div>
+                    <button class="view-button">View Details</button>
                 </div>
-            </div>
-            <div class="modal-details">
-                <div class="detail-group">
-                    <h4>Email</h4>
-                    <p>${employee.email}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Phone</h4>
-                    <p>${employee.phone}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Department</h4>
-                    <p>${employee.department}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Location</h4>
-                    <p>${employee.location}</p>
-                </div>
-                <div class="detail-group">
-                    <h4>Skills</h4>
-                    <div class="skills-container">${skillsHTML}</div>
-                </div>
-                <div class="detail-group">
-                    <h4>About</h4>
-                    <p>${employee.bio}</p>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="edit-button" onclick="enableEditMode()">Edit</button>
-                <button class="close-button" onclick="document.getElementById('employeeModal').style.display='none'">Close</button>
-            </div>
-        `;
+            `;
+            employeeGrid.appendChild(card);
+        });
+
+        // Add click handlers to view buttons
+        document.querySelectorAll('.view-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.employee-card');
+                const employeeId = parseInt(card.getAttribute('data-id'));
+                const employee = employeesData.find(emp => emp.id === employeeId);
+                if (employee) showEmployeeModal(employee);
+            });
+        });
     }
 
-    modal.style.display = "block";
-}
+    // Show employee modal in view or edit mode
+    function showEmployeeModal(employee, isEditMode = false) {
+        currentEmployee = employee;
+        originalEmployeeData = JSON.parse(JSON.stringify(employee));
+        
+        const modal = document.getElementById('employeeModal');
+        const modalDetails = document.getElementById('modalEmployeeDetails');
+        if (!modal || !modalDetails) return;
 
-function enableEditMode() {
-    showEmployeeModal(currentEmployee, true);
-}
+        // Generate roles HTML
+        let rolesHTML = Array.isArray(employee.role) ? 
+            employee.role.map(role => `<span class="role-badge">${role}</span>`).join(' ') : 
+            `<span class="role-badge">${employee.role}</span>`;
 
-function disableEditMode() {
-    showEmployeeModal(originalEmployeeData, false);
-}
+        // Generate skills HTML
+        const skillsHTML = employee.skills?.map(skill => `<span class="skill-badge">${skill}</span>`).join('') || '';
 
-function saveEmployeeChanges() {
-    const modalDetails = document.getElementById('modalEmployeeDetails');
-    
-    // Get updated values
-    currentEmployee.name = modalDetails.querySelector('.modal-name').value;
-    
-    const rolesInput = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)');
-    currentEmployee.role = rolesInput.value.split(',').map(r => r.trim());
-    
-    const statusSelect = modalDetails.querySelector('#statusSelect');
-    currentEmployee.status = statusSelect.options[statusSelect.selectedIndex].text;
-    currentEmployee.statusClass = `status-${statusSelect.value}`;
-    
-    // Update other fields
-    currentEmployee.experience = parseInt(modalDetails.querySelector('.modal-header-info input:nth-of-type(2)').value);
-    
-    // Get all inputs in order
-    const inputs = modalDetails.querySelectorAll('.editable-field');
-    currentEmployee.email = inputs[3].value;
-    currentEmployee.phone = inputs[4].value;
-    currentEmployee.department = inputs[5].value;
-    currentEmployee.location = inputs[6].value;
-    
-    const skillsInput = inputs[7];
-    if (skillsInput) {
-        currentEmployee.skills = skillsInput.value.split(',').map(s => s.trim());
+        if (isEditMode) {
+            // Edit mode content with form fields
+            modalDetails.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-avatar-container">
+                        <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+                        <select class="editable-select" id="statusSelect">
+                            <option value="available" ${employee.status === 'Available' ? 'selected' : ''}>Available</option>
+                            <option value="busy" ${employee.status === 'Busy' ? 'selected' : ''}>Busy</option>
+                            <option value="remote" ${employee.status === 'Remote' ? 'selected' : ''}>Remote</option>
+                            <option value="on-leave" ${employee.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
+                        </select>
+                    </div>
+                    <div class="modal-header-info">
+                        <input type="text" class="editable-field modal-name" value="${employee.name}">
+                        <input type="text" class="editable-field" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
+                        <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;">
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <h4>Email</h4>
+                        <input type="email" class="editable-field" value="${employee.email}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Phone</h4>
+                        <input type="tel" class="editable-field" value="${employee.phone}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Department</h4>
+                        <input type="text" class="editable-field" value="${employee.department}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Location</h4>
+                        <input type="text" class="editable-field" value="${employee.location}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>Skills</h4>
+                        <input type="text" class="editable-field" value="${Array.isArray(employee.skills) ? employee.skills.join(', ') : employee.skills}">
+                    </div>
+                    <div class="detail-group">
+                        <h4>About</h4>
+                        <textarea class="editable-field" style="width:100%; min-height:100px;">${employee.bio}</textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-button cancel-button">Cancel</button>
+                    <button class="modal-button save-button">Save Changes</button>
+                </div>
+            `;
+        } else {
+            // View mode content (read-only)
+            modalDetails.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-avatar-container">
+                        <img src="${employee.img}" alt="${employee.name}" class="modal-avatar">
+                        <span class="status ${employee.statusClass}">${employee.status}</span>
+                    </div>
+                    <div class="modal-header-info">
+                        <h2 class="modal-name">${employee.name}</h2>
+                        <div class="modal-roles">${rolesHTML}</div>
+                        <div class="modal-experience">
+                            <span class="experience-badge">${employee.experience} years of experience</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="detail-group">
+                        <h4>Email</h4>
+                        <p>${employee.email}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Phone</h4>
+                        <p>${employee.phone}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Department</h4>
+                        <p>${employee.department}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Location</h4>
+                        <p>${employee.location}</p>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Skills</h4>
+                        <div class="skills-container">${skillsHTML}</div>
+                    </div>
+                    <div class="detail-group">
+                        <h4>About</h4>
+                        <p>${employee.bio}</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-button edit-button">Edit</button>
+                </div>
+            `;
+        }
+
+        // Add event listeners to dynamic buttons
+        modalDetails.querySelector('.edit-button')?.addEventListener('click', enableEditMode);
+        modalDetails.querySelector('.cancel-button')?.addEventListener('click', disableEditMode);
+        modalDetails.querySelector('.save-button')?.addEventListener('click', saveEmployeeChanges);
+
+        modal.style.display = "block";
     }
-    
-    const bioTextarea = modalDetails.querySelector('textarea');
-    if (bioTextarea) {
-        currentEmployee.bio = bioTextarea.value;
-    }
-    
-    // Update the employee card in the grid
-    updateEmployeeCard(currentEmployee);
-    
-    // Exit edit mode
-    showEmployeeModal(currentEmployee, false);
-    
-    // Show success message
-    showSuccessMessage('Employee updated successfully!');
-}
 
-function addNewEmployee() {
-    // Get all input values
-    const name = document.getElementById('newEmployeeName').value.trim();
-    const roles = document.getElementById('newEmployeeRole').value.split(',').map(r => r.trim());
-    const status = document.getElementById('newEmployeeStatus').value;
-    const experience = parseInt(document.getElementById('newEmployeeExperience').value) || 0;
-    const email = document.getElementById('newEmployeeEmail').value.trim();
-    const phone = document.getElementById('newEmployeePhone').value.trim();
-    const department = document.getElementById('newEmployeeDepartment').value.trim();
-    const location = document.getElementById('newEmployeeLocation').value.trim();
-    const skills = document.getElementById('newEmployeeSkills').value.split(',').map(s => s.trim());
-    const bio = document.getElementById('newEmployeeBio').value.trim();
-    const img = document.getElementById('newEmployeeImage').value.trim() || 'https://i.pravatar.cc/150?img=' + (employeesData.length + 1);
-
-    // Basic validation
-    if (!name || !roles.length || !email) {
-        alert('Please fill in at least Name, Role, and Email fields');
-        return;
-    }
-
-    // Create new employee object
-    const newEmployee = {
-        id: employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1,
-        name,
-        img,
-        role: roles.length === 1 ? roles[0] : roles,
-        status: status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' '),
-        statusClass: `status-${status}`,
-        email,
-        phone,
-        department,
-        location,
-        skills: skills.filter(s => s), // Remove empty strings
-        bio,
-        experience
+    // Switch to edit mode
+    window.enableEditMode = function() {
+        showEmployeeModal(currentEmployee, true);
     };
 
-    // Add to employees array
-    employeesData.push(newEmployee);
+    // Cancel editing and return to view mode
+    window.disableEditMode = function() {
+        showEmployeeModal(originalEmployeeData, false);
+    };
 
-    // Refresh the employee grid
-    generateEmployeeCards();
-
-    // Close the modal
-    closeAddModal();
-
-    // Show success message
-    showSuccessMessage('Employee added successfully!');
-}
-
-function closeAddModal() {
-    document.getElementById('addEmployeeModal').style.display = 'none';
-}
-
-function updateEmployeeCard(employee) {
-    const card = document.querySelector(`.employee-card[data-id="${employee.id}"]`);
-    if (card) {
-        // Update name
-        const nameElement = card.querySelector('.employee-name');
-        if (nameElement) nameElement.textContent = employee.name;
+    // Save updated employee data
+    window.saveEmployeeChanges = function() {
+        const modalDetails = document.getElementById('modalEmployeeDetails');
+        if (!modalDetails) return;
         
-        // Update role (show only first role in card)
-        const roleElement = card.querySelector('.employee-role');
-        if (roleElement) {
-            const firstRole = Array.isArray(employee.role) ? employee.role[0] : employee.role;
-            roleElement.innerHTML = `<span class="role-badge">${firstRole}</span>`;
-        }
+        // Get all updated values from form
+        const inputs = modalDetails.querySelectorAll('.editable-field');
+        currentEmployee.name = modalDetails.querySelector('.modal-name').value;
+        currentEmployee.role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
         
         // Update status
-        const statusElement = card.querySelector('.status');
-        if (statusElement) {
-            statusElement.textContent = employee.status;
-            // Remove all status classes and add the new one
-            statusElement.className = 'status';
-            statusElement.classList.add(employee.statusClass);
-        }
+        const statusSelect = modalDetails.querySelector('#statusSelect');
+        currentEmployee.status = statusSelect.options[statusSelect.selectedIndex].text;
+        currentEmployee.statusClass = `status-${statusSelect.value}`;
         
-        // Update experience
-        const expElement = card.querySelector('.experience-badge');
-        if (expElement) {
-            expElement.textContent = `${employee.experience} years of experience`;
-        }
+        // Update other fields
+        currentEmployee.experience = parseInt(modalDetails.querySelector('.modal-header-info input:nth-of-type(2)').value);
+        currentEmployee.email = inputs[3].value;
+        currentEmployee.phone = inputs[4].value;
+        currentEmployee.department = inputs[5].value;
+        currentEmployee.location = inputs[6].value;
+        currentEmployee.skills = inputs[7]?.value.split(',').map(s => s.trim());
+        currentEmployee.bio = modalDetails.querySelector('textarea')?.value;
+        
+        // Update UI and show success
+        updateEmployeeCard(currentEmployee);
+        showEmployeeModal(currentEmployee, false);
+        showSuccessMessage('Employee updated successfully!');
+    };
+
+    // Update employee card in grid
+    function updateEmployeeCard(employee) {
+        const card = document.querySelector(`.employee-card[data-id="${employee.id}"]`);
+        if (!card) return;
+        
+        card.querySelector('.employee-name').textContent = employee.name;
+        card.querySelector('.employee-role').innerHTML = `<span class="role-badge">${
+            Array.isArray(employee.role) ? employee.role[0] : employee.role
+        }</span>`;
+        
+        // Update status display
+        const statusElement = card.querySelector('.status');
+        statusElement.textContent = employee.status;
+        statusElement.className = 'status ' + employee.statusClass;
+        
+        card.querySelector('.experience-badge').textContent = `${employee.experience} years of experience`;
     }
-}
 
-// Initialize the page
-generateEmployeeCards();
+    // Initialize the page
+    generateEmployeeCards();
 
-// Modal close functionality
-document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('employeeModal').style.display = "none";
-});
-
-window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('employeeModal')) {
+    // Close modal when clicking X or outside
+    document.querySelector('.close')?.addEventListener('click', () => {
         document.getElementById('employeeModal').style.display = "none";
-    }
+    });
+    
+    window.addEventListener('click', (event) => {
+        if (event.target === document.getElementById('employeeModal')) {
+            document.getElementById('employeeModal').style.display = "none";
+        }
+    });
 });
