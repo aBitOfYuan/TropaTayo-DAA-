@@ -150,10 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const dueDate = document.getElementById('dueDate') ? document.getElementById('dueDate').value : null;
         const roles = [];
         document.querySelectorAll('.role-entry').forEach(entry => {
-            const roleName = entry.querySelector('.roleName').value;
+            const roleName = entry.querySelector('.roleName').value.trim().toLowerCase();
             const skills = entry.querySelector('.roleSkills').value
                 .split(',')
-                .map(skill => skill.trim())
+                .map(skill => skill.trim().toLowerCase())
                 .filter(skill => skill.length > 0);
             if (roleName) {
                 roles.push({
@@ -342,7 +342,7 @@ document.querySelectorAll('.btn-view-details').forEach((btn, idx) => {
                         </div>
                         <div class="member-skills">
                             <span class="skills-label">Skills:</span>
-                            ${member.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                            ${member.skills.map(skill => `<span class="skill-tag">${skill.toLowerCase()}</span>`).join('')}
                         </div>
                     </div>
                 </div>
@@ -430,12 +430,12 @@ function showProjectDetails(index) {
                     <div class="member-header">
                         <div class="member-name">${member.name}</div>
                         <div class="member-role">
-                            <span class="member-role-badge">${member.role}</span>
+                            <span class="member-role-badge">${Array.isArray(member.role) ? member.role.map(r => toTitleCase(r)).join(', ') : toTitleCase(member.role)}</span>
                         </div>
                     </div>
                     <div class="member-skills">
                         <span class="skills-label">Skills:</span>
-                        ${member.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        ${member.skills.map(skill => `<span class="skill-tag">${skill.toLowerCase()}</span>`).join('')}
                     </div>
                 </div>
             </div>
@@ -443,4 +443,11 @@ function showProjectDetails(index) {
     }).join('');
     detailsTeamMembers.innerHTML = metaHtml + teamHtml;
     detailsModalOverlay.classList.add('active');
+}
+
+// Function to convert a string to title case
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }
