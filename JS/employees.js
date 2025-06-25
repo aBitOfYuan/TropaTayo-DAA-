@@ -301,21 +301,26 @@ window.employeesData = [
         experience: 5
     }
 ];
-    // DOM elements and state variables
+   // DOM elements and state variables
     const employeeGrid = document.getElementById('employeeGrid');
-    let currentEmployee = null; // Currently viewed/edited employee
-    let originalEmployeeData = null; // Backup of employee data before editing
+    let currentEmployee = null;
+    let originalEmployeeData = null;
+
+    // Save employees to localStorage
+    function saveEmployeesToStorage() {
+        localStorage.setItem('employeesData', JSON.stringify(employeesData));
+    }
 
     // Show success notification
     function showSuccessMessage(message = 'Successfully saved!') {
-        const notification = document.getElementById('successNotification');
-        if (!notification) return;
+        const popup = document.getElementById('successPopup');
+        const messageElement = popup.querySelector('.popup-message span');
         
-        notification.querySelector('span').nextSibling.textContent = message;
-        notification.classList.add('show');
+        messageElement.textContent = message;
+        popup.classList.add('show');
         
         setTimeout(() => {
-            notification.classList.remove('show');
+            popup.classList.remove('show');
         }, 3000);
     }
 
@@ -330,7 +335,6 @@ window.employeesData = [
             card.className = 'employee-card';
             card.setAttribute('data-id', employee.id);
 
-            // Show only first role in card
             let firstRole = Array.isArray(employee.role) ? employee.role[0] : employee.role;
             let roleHTML = `<span class="role-badge">${firstRole}</span>`;
 
@@ -363,7 +367,7 @@ window.employeesData = [
         });
     }
 
-    // Show employee modal in view or edit mode
+    // Show employee modal
     function showEmployeeModal(employee, isEditMode = false) {
         currentEmployee = employee;
         originalEmployeeData = JSON.parse(JSON.stringify(employee));
@@ -372,16 +376,13 @@ window.employeesData = [
         const modalDetails = document.getElementById('modalEmployeeDetails');
         if (!modal || !modalDetails) return;
 
-        // Generate roles HTML
         let rolesHTML = Array.isArray(employee.role) ? 
             employee.role.map(role => `<span class="role-badge">${role}</span>`).join(' ') : 
             `<span class="role-badge">${employee.role}</span>`;
 
-        // Generate skills HTML
         const skillsHTML = employee.skills?.map(skill => `<span class="skill-badge">${skill}</span>`).join('') || '';
 
         if (isEditMode) {
-            // Edit mode content with form fields
             modalDetails.innerHTML = `
                 <div class="modal-header">
                     <div class="modal-avatar-container">
@@ -389,14 +390,12 @@ window.employeesData = [
                         <select class="editable-select" id="statusSelect">
                             <option value="available" ${employee.status === 'Available' ? 'selected' : ''}>Available</option>
                             <option value="busy" ${employee.status === 'Busy' ? 'selected' : ''}>Busy</option>
-                            <option value="remote" ${employee.status === 'Remote' ? 'selected' : ''}>Remote</option>
-                            <option value="on-leave" ${employee.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
                         </select>
                     </div>
                     <div class="modal-header-info">
                         <input type="text" class="editable-field modal-name" value="${employee.name}">
                         <input type="text" class="editable-field" value="${Array.isArray(employee.role) ? employee.role.join(', ') : employee.role}" style="width:100%; margin: 0.5rem 0;">
-                        <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;">
+                        <input type="number" class="editable-field" value="${employee.experience}" style="width:100%;" min="0">
                     </div>
                 </div>
                 <div class="modal-details">
@@ -431,7 +430,6 @@ window.employeesData = [
                 </div>
             `;
         } else {
-            // View mode content (read-only)
             modalDetails.innerHTML = `
                 <div class="modal-header">
                     <div class="modal-avatar-container">
@@ -478,7 +476,6 @@ window.employeesData = [
             `;
         }
 
-        // Add event listeners to dynamic buttons
         modalDetails.querySelector('.edit-button')?.addEventListener('click', enableEditMode);
         modalDetails.querySelector('.cancel-button')?.addEventListener('click', disableEditMode);
         modalDetails.querySelector('.save-button')?.addEventListener('click', saveEmployeeChanges);
@@ -486,68 +483,78 @@ window.employeesData = [
         modal.style.display = "block";
     }
 
-    // Switch to edit mode
+    // Edit mode functions
     window.enableEditMode = function() {
         showEmployeeModal(currentEmployee, true);
     };
 
-    // Cancel editing and return to view mode
     window.disableEditMode = function() {
         showEmployeeModal(originalEmployeeData, false);
     };
 
-    // Save updated employee data
     window.saveEmployeeChanges = function() {
         const modalDetails = document.getElementById('modalEmployeeDetails');
         if (!modalDetails) return;
         
-        // Get all updated values from form
-        const inputs = modalDetails.querySelectorAll('.editable-field');
-        currentEmployee.name = modalDetails.querySelector('.modal-name').value;
-        currentEmployee.role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
+        const employeeIndex = employeesData.findIndex(emp => emp.id === currentEmployee.id);
+        if (employeeIndex === -1) return;
         
-        // Update status
+        // Update all fields
+        employeesData[employeeIndex].name = modalDetails.querySelector('.modal-name').value;
+        employeesData[employeeIndex].role = modalDetails.querySelector('.modal-header-info input:nth-of-type(1)').value.split(',').map(r => r.trim());
+        
         const statusSelect = modalDetails.querySelector('#statusSelect');
-        currentEmployee.status = statusSelect.options[statusSelect.selectedIndex].text;
-        currentEmployee.statusClass = `status-${statusSelect.value}`;
+        employeesData[employeeIndex].status = statusSelect.options[statusSelect.selectedIndex].text;
+        employeesData[employeeIndex].statusClass = `status-${statusSelect.value}`;
         
-        // Update other fields
-        currentEmployee.experience = parseInt(modalDetails.querySelector('.modal-header-info input:nth-of-type(2)').value);
-        currentEmployee.email = inputs[3].value;
-        currentEmployee.phone = inputs[4].value;
-        currentEmployee.department = inputs[5].value;
-        currentEmployee.location = inputs[6].value;
-        currentEmployee.skills = inputs[7]?.value.split(',').map(s => s.trim());
-        currentEmployee.bio = modalDetails.querySelector('textarea')?.value;
+        const expInput = modalDetails.querySelector('.modal-header-info input[type="number"]');
+        employeesData[employeeIndex].experience = expInput.value ? parseInt(expInput.value) : 0;
         
-        // Update UI and show success
-        updateEmployeeCard(currentEmployee);
+        const inputs = modalDetails.querySelectorAll('.editable-field');
+        employeesData[employeeIndex].email = inputs[3].value;
+        employeesData[employeeIndex].phone = inputs[4].value;
+        employeesData[employeeIndex].department = inputs[5].value;
+        employeesData[employeeIndex].location = inputs[6].value;
+        employeesData[employeeIndex].skills = inputs[7]?.value.split(',').map(s => s.trim());
+        employeesData[employeeIndex].bio = modalDetails.querySelector('textarea')?.value;
+        
+        currentEmployee = employeesData[employeeIndex];
+        
+        saveEmployeesToStorage();
+        generateEmployeeCards();
         showEmployeeModal(currentEmployee, false);
         showSuccessMessage('Employee updated successfully!');
     };
 
-    // Update employee card in grid
-    function updateEmployeeCard(employee) {
-        const card = document.querySelector(`.employee-card[data-id="${employee.id}"]`);
-        if (!card) return;
-        
-        card.querySelector('.employee-name').textContent = employee.name;
-        card.querySelector('.employee-role').innerHTML = `<span class="role-badge">${
-            Array.isArray(employee.role) ? employee.role[0] : employee.role
-        }</span>`;
-        
-        // Update status display
-        const statusElement = card.querySelector('.status');
-        statusElement.textContent = employee.status;
-        statusElement.className = 'status ' + employee.statusClass;
-        
-        card.querySelector('.experience-badge').textContent = `${employee.experience} years of experience`;
-    }
+    // Add new employee
+    window.addNewEmployee = function() {
+        const newEmployee = {
+            id: employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1,
+            name: document.getElementById('newEmployeeName').value,
+            img: document.getElementById('newEmployeeImage').value || "../Images/default-avatar.jpg",
+            role: document.getElementById('newEmployeeRole').value.split(',').map(r => r.trim()),
+             status: document.getElementById('newEmployeeStatus').options[document.getElementById('newEmployeeStatus').selectedIndex].text,
+        statusClass: document.getElementById('newEmployeeStatus').value === 'available' ? 'status-available' : 'status-busy',
+            email: document.getElementById('newEmployeeEmail').value,
+            phone: document.getElementById('newEmployeePhone').value,
+            department: document.getElementById('newEmployeeDepartment').value,
+            location: document.getElementById('newEmployeeLocation').value,
+            skills: document.getElementById('newEmployeeSkills').value.split(',').map(s => s.trim()),
+            bio: document.getElementById('newEmployeeBio').value,
+            experience: parseInt(document.getElementById('newEmployeeExperience').value) || 0
+        };
 
-    // Initialize the page
+        employeesData.push(newEmployee);
+        saveEmployeesToStorage();
+        generateEmployeeCards();
+        closeAddModal();
+        showSuccessMessage('Employee added successfully!');
+    };
+
+    // Initialize
     generateEmployeeCards();
 
-    // Close modal when clicking X or outside
+    // Close modal handlers
     document.querySelector('.close')?.addEventListener('click', () => {
         document.getElementById('employeeModal').style.display = "none";
     });
