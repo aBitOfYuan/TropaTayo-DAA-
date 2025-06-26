@@ -1,4 +1,4 @@
-// ✅ INPUT SCORE MATRIX (roles x employees)
+// matrix placeholder exxample (roles x employees)
 const scores = [
     [15,10,18,12,16],
     [19,15,14,17,20],
@@ -17,14 +17,14 @@ const originalEmployeeCount = currentScores[0].length;
 // Use a consistent floating-point tolerance
 const FLOAT_TOL = 1e-6;
 
-// ✅ Add tiny noise to break ties for floating-point stability
+// Add tiny noise to break ties 
 function addTinyNoise(matrix, epsilon = FLOAT_TOL) {
     return matrix.map((row, i) =>
         row.map((val, j) => val + epsilon * (i * matrix[0].length + j + 1))
     );
 }
 
-// ✅ STEP 1: Pad to Square Matrix (use -Infinity for maximization)
+//Pad to make the matrix a Square Matrix (use -Infinity for maximization)
 function padToSquare(matrix) {
     const numRows = matrix.length;
     const numCols = matrix[0].length;
@@ -42,7 +42,7 @@ function padToSquare(matrix) {
 
 const paddedMatrix = padToSquare(addTinyNoise(currentScores));
 
-// ✅ STEP 2: Hungarian Algorithm (Maximization adapted Munkres' algorithm)
+// Hungarian Algorithm - start
 function hungarianAlgorithm(scoreMatrix) {
     const n = scoreMatrix.length;
     const maxVal = Math.max(...scoreMatrix.flat().filter(Number.isFinite));
